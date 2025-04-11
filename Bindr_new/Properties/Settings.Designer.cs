@@ -58,5 +58,29 @@ namespace Bindr_new.Properties {
                 this["Path"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Coords3 {
+            get {
+                return ((string)(this["Coords3"]));
+            }
+            set {
+                this["Coords3"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Coords4 {
+            get {
+                return ((string)(this["Coords4"]));
+            }
+            set {
+                this["Coords4"] = value;
+            }
+        }
     }
 }

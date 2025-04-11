@@ -11,5 +11,11 @@
     <Setting Name="Path" Type="System.String" Scope="User">
       <Value Profile="(Default)">Z:\Jobs\PS Job </Value>
     </Setting>
+    <Setting Name="Coords3" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Coords4" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

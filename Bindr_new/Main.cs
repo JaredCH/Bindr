@@ -79,12 +79,6 @@ namespace Bindr_new
 
         private void SetupDataGridView()
         {
-            tab1DGV.Columns.Clear();  // Clear any existing columns
-            tab1DGV.Columns.Add("PCMK", "PCMK");
-            tab1DGV.Columns.Add("JobPO", "Job_PO");
-            tab1DGV.Columns.Add("FolderPath", "Folder Path");
-            tab1DGV.Columns.Add("Status", "Status");
-            tab1DGV.Columns.Add("PageNumber", "Page Number");
             tab1DGV.Rows.Clear();
         }
 
