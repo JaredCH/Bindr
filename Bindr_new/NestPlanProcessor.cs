@@ -12,6 +12,7 @@ namespace Bindr_new
 
         public List<List<string>> ParseNestPlanFileFast(string filePath)
         {
+            
             var results = new List<List<string>>();
             string planId = "";
             string fileName = System.IO.Path.GetFileName(filePath);

@@ -111,7 +111,7 @@ namespace Bindr_new
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(686, 166);
+            this.ClientSize = new System.Drawing.Size(1113, 624);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -121,7 +121,7 @@ namespace Bindr_new
             this.Controls.Add(this.tbCoords1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "settingsForm";
-            this.Text = "settingsForm";
+            this.Text = "Bindr Settings";
             this.ResumeLayout(false);
             this.PerformLayout();
 
