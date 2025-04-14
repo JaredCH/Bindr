@@ -25,6 +25,7 @@ namespace Bindr
 {
     public partial class Main : Form
     {
+
         private string sourcePdfPath = "";
         private string selectedFolderPath = "";
         private string suggestedFolderPath = "";
