@@ -130,6 +130,7 @@ namespace Bindr
             }
             btntab1SelectFolder.Enabled = true;
             btntab1Process.Enabled = true;
+
         }
 
         private void btntab1SelectFolder_Click(object sender, EventArgs e)
