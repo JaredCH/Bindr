@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace Bindr_new
+namespace Bindr
 {
     partial class settingsForm
     {
@@ -120,6 +120,7 @@ namespace Bindr_new
             // 
             // pdfPreviewBox
             // 
+            this.pdfPreviewBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pdfPreviewBox.InitialImage = ((System.Drawing.Image)(resources.GetObject("pdfPreviewBox.InitialImage")));
             this.pdfPreviewBox.Location = new System.Drawing.Point(3, 3);
             this.pdfPreviewBox.Name = "pdfPreviewBox";
@@ -251,6 +252,7 @@ namespace Bindr_new
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "settingsForm";
             this.Text = "Bindr Settings";
+            this.Load += new System.EventHandler(this.settingsForm_Load);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pdfPreviewBox)).EndInit();
             this.ResumeLayout(false);

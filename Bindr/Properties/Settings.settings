@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Bindr_new.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Bindr.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="Coords1" Type="System.String" Scope="User">
@@ -12,10 +12,10 @@
       <Value Profile="(Default)">Z:\Jobs\PS Job </Value>
     </Setting>
     <Setting Name="Coords3" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">103, 674, 153, 9</Value>
     </Setting>
     <Setting Name="Coords4" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">103, 701, 64, 12</Value>
     </Setting>
   </Settings>
 </SettingsFile>

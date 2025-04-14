@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace Bindr_new
+namespace Bindr
 {
     partial class Main
     {
@@ -46,22 +46,22 @@ namespace Bindr_new
             this.tabpdfmerge = new System.Windows.Forms.TabPage();
             this.tab1DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tabreport = new System.Windows.Forms.TabPage();
+            this.tab2StatusLabel = new System.Windows.Forms.Label();
             this.tab2DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tab2btnLoadNestPlans = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tab2StatusLabel = new System.Windows.Forms.Label();
-            this.tab2PDFView = new AxAcroPDFLib.AxAcroPDF();
             this.tab2RightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSupportDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tab2PDFView = new PdfiumViewer.PdfViewer();
             this.menuStrip1.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.tabpdfmerge.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab1DGV)).BeginInit();
             this.tabreport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tab2PDFView)).BeginInit();
             this.tab2RightClick.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -170,7 +170,7 @@ namespace Bindr_new
             this.tabpdfmerge.Location = new System.Drawing.Point(4, 22);
             this.tabpdfmerge.Name = "tabpdfmerge";
             this.tabpdfmerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpdfmerge.Size = new System.Drawing.Size(903, 344);
+            this.tabpdfmerge.Size = new System.Drawing.Size(974, 344);
             this.tabpdfmerge.TabIndex = 0;
             this.tabpdfmerge.Text = "PDF Merge";
             // 
@@ -207,6 +207,18 @@ namespace Bindr_new
             this.tabreport.TabIndex = 1;
             this.tabreport.Text = "Report";
             this.tabreport.UseVisualStyleBackColor = true;
+            // 
+            // tab2StatusLabel
+            // 
+            this.tab2StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tab2StatusLabel.AutoSize = true;
+            this.tab2StatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
+            this.tab2StatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.tab2StatusLabel.Location = new System.Drawing.Point(8, 323);
+            this.tab2StatusLabel.Name = "tab2StatusLabel";
+            this.tab2StatusLabel.Size = new System.Drawing.Size(58, 18);
+            this.tab2StatusLabel.TabIndex = 9;
+            this.tab2StatusLabel.Text = "Status: ";
             // 
             // tab2DGV
             // 
@@ -264,53 +276,50 @@ namespace Bindr_new
             this.button3.TabIndex = 6;
             this.button3.Text = "empty";
             this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // tabPage1
             // 
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(678, 344);
+            this.tabPage1.Size = new System.Drawing.Size(974, 344);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "JDE";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tab2StatusLabel
+            // tab2RightClick
             // 
-            this.tab2StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.tab2StatusLabel.AutoSize = true;
-            this.tab2StatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F);
-            this.tab2StatusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.tab2StatusLabel.Location = new System.Drawing.Point(8, 323);
-            this.tab2StatusLabel.Name = "tab2StatusLabel";
-            this.tab2StatusLabel.Size = new System.Drawing.Size(58, 18);
-            this.tab2StatusLabel.TabIndex = 9;
-            this.tab2StatusLabel.Text = "Status: ";
+            this.tab2RightClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadPDFToolStripMenuItem,
+            this.loadSupportDetailToolStripMenuItem});
+            this.tab2RightClick.Name = "tab2RightClick";
+            this.tab2RightClick.Size = new System.Drawing.Size(179, 48);
+            // 
+            // loadPDFToolStripMenuItem
+            // 
+            this.loadPDFToolStripMenuItem.Name = "loadPDFToolStripMenuItem";
+            this.loadPDFToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.loadPDFToolStripMenuItem.Text = "Load NestPlan";
+            this.loadPDFToolStripMenuItem.Click += new System.EventHandler(this.loadPDFToolStripMenuItem_Click);
+            // 
+            // loadSupportDetailToolStripMenuItem
+            // 
+            this.loadSupportDetailToolStripMenuItem.Name = "loadSupportDetailToolStripMenuItem";
+            this.loadSupportDetailToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.loadSupportDetailToolStripMenuItem.Text = "Load Support Detail";
+            this.loadSupportDetailToolStripMenuItem.Click += new System.EventHandler(this.loadSupportDetailToolStripMenuItem_Click);
             // 
             // tab2PDFView
             // 
             this.tab2PDFView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab2PDFView.Enabled = true;
-            this.tab2PDFView.Location = new System.Drawing.Point(566, 7);
+            this.tab2PDFView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tab2PDFView.Location = new System.Drawing.Point(567, 6);
             this.tab2PDFView.Name = "tab2PDFView";
-            this.tab2PDFView.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("tab2PDFView.OcxState")));
-            this.tab2PDFView.Size = new System.Drawing.Size(289, 307);
+            this.tab2PDFView.ShowBookmarks = false;
+            this.tab2PDFView.Size = new System.Drawing.Size(293, 307);
             this.tab2PDFView.TabIndex = 10;
-            // 
-            // tab2RightClick
-            // 
-            this.tab2RightClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadPDFToolStripMenuItem});
-            this.tab2RightClick.Name = "tab2RightClick";
-            this.tab2RightClick.Size = new System.Drawing.Size(181, 48);
-            // 
-            // loadPDFToolStripMenuItem
-            // 
-            this.loadPDFToolStripMenuItem.Name = "loadPDFToolStripMenuItem";
-            this.loadPDFToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.loadPDFToolStripMenuItem.Text = "Load PDF";
-            this.loadPDFToolStripMenuItem.Click += new System.EventHandler(this.loadPDFToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -333,7 +342,6 @@ namespace Bindr_new
             this.tabreport.ResumeLayout(false);
             this.tabreport.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tab2PDFView)).EndInit();
             this.tab2RightClick.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -358,8 +366,9 @@ namespace Bindr_new
         private Button button3;
         private TabPage tabPage1;
         private Label tab2StatusLabel;
-        private AxAcroPDFLib.AxAcroPDF tab2PDFView;
         private ContextMenuStrip tab2RightClick;
         private ToolStripMenuItem loadPDFToolStripMenuItem;
+        private ToolStripMenuItem loadSupportDetailToolStripMenuItem;
+        private PdfiumViewer.PdfViewer tab2PDFView;
     }
 }

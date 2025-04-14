@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace Bindr_new
+namespace Bindr
 {
     public class PdfProcessor
     {
@@ -22,8 +22,8 @@ namespace Bindr_new
                 dataGridView.Columns.Clear();
                 dataGridView.Columns.Add("PCMK", "PCMK");
                 dataGridView.Columns.Add("Job_PO", "Job_PO");
-                dataGridView.Columns.Add("FG Code", "Coords3");
-                dataGridView.Columns.Add("WO#", "Coords4");
+                dataGridView.Columns.Add("FG Code", "FG Code");
+                dataGridView.Columns.Add("WO#", "WO#");
                 dataGridView.Columns.Add("FolderPath", "Folder Path");
                 dataGridView.Columns.Add("Status", "Status");
                 dataGridView.Columns.Add("PageNumber", "Page Number");

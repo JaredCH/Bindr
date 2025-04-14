@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Bindr_new.Properties
+namespace Bindr.Properties
 {
 
 

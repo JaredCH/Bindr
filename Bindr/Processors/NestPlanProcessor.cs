@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bindr_new
+namespace Bindr
 {
     public class NestPlanProcessor
     {

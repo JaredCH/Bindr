@@ -11,7 +11,7 @@ using PdfiumViewer;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
-namespace Bindr_new
+namespace Bindr
 {
     public partial class settingsForm : Form
     {
@@ -60,24 +60,28 @@ namespace Bindr_new
         {
             currentDrawMode = DrawMode.Pcmk;
             currentMode = RegionMode.Pcmk;
+            FlashTextBox(txtPcmkRect, 3, 2000);
         }
 
         private void settingsbtnSetWO_Click(object sender, EventArgs e)
         {
             currentDrawMode = DrawMode.WO;
             currentMode = RegionMode.WO;
+            FlashTextBox(txtWORect, 3, 2000);
         }
 
         private void settingsbtnItemNo_Click(object sender, EventArgs e)
         {
             currentDrawMode = DrawMode.ItemNo;
             currentMode = RegionMode.ItemNo;
+            FlashTextBox(txtItemNoRect, 3, 2000);
         }
 
         private void settingsbtnSetJobPO_Click(object sender, EventArgs e)
         {
             currentDrawMode = DrawMode.JobPo;
             currentMode = RegionMode.JobPo;
+            FlashTextBox(txtJobPoRect, 3, 2000);
         }
 
         private void pdfPreviewBox_MouseDown(object sender, MouseEventArgs e)
@@ -278,5 +282,42 @@ namespace Bindr_new
         }
 
 
+
+        private void FlashTextBox(TextBox textBox, int flashCount, int totalDurationMs)
+        {
+            if (textBox == null) return;
+
+            Color defaultColor = textBox.BackColor; // Save default color
+            Color flashColor = Color.Yellow; // Flash color
+            int toggleCount = flashCount * 2; // Each flash is an on-off cycle
+            int intervalMs = totalDurationMs / toggleCount; // Time per toggle
+
+            Timer flashTimer = new Timer
+            {
+                Interval = intervalMs
+            };
+            int togglesRemaining = toggleCount;
+
+            flashTimer.Tick += (s, args) =>
+            {
+                if (togglesRemaining <= 0)
+                {
+                    flashTimer.Stop();
+                    textBox.BackColor = defaultColor; // Restore default color
+                    flashTimer.Dispose();
+                    return;
+                }
+
+                textBox.BackColor = (togglesRemaining % 2 == 0) ? flashColor : defaultColor;
+                togglesRemaining--;
+            };
+
+            flashTimer.Start();
+        }
+
+        private void settingsForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
