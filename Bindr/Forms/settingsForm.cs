@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;   
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,6 +11,10 @@ using System.Windows.Forms;
 using PdfiumViewer;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+
+//todo
+//View  current mapping button to show whats currently mapped, and auto show it after the image is loaded.
+
 
 namespace Bindr
 {
@@ -318,6 +323,11 @@ namespace Bindr
         private void settingsForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Process.Start("Z:\\Pipe Supports Documentation\\Review\\PS-012_Bindr_R0.docx");
         }
     }
 }

@@ -7,27 +7,28 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace Bindr
 {
     public class PdfProcessor
     {
-        public static void LoadPdf(string sourcePdfPath, DataGridView dataGridView, ref string selectedFolderPath, ref string suggestedFolderPath)
+        // Define a data structure for rows
+        public struct PdfRow
         {
-            dataGridView.Rows.Clear();
+            public string Pcmk { get; set; }
+            public string JobPo { get; set; }
+            public string FgCode { get; set; }
+            public string WoNumber { get; set; }
+            public string FolderPath { get; set; }
+            public string Status { get; set; }
+            public int PageNumber { get; set; }
+        }
 
-            // Ensure DataGridView has the correct columns
-            if (dataGridView.Columns.Count != 7)
-            {
-                dataGridView.Columns.Clear();
-                dataGridView.Columns.Add("PCMK", "PCMK");
-                dataGridView.Columns.Add("Job_PO", "Job_PO");
-                dataGridView.Columns.Add("FG Code", "FG Code");
-                dataGridView.Columns.Add("WO#", "WO#");
-                dataGridView.Columns.Add("FolderPath", "Folder Path");
-                dataGridView.Columns.Add("Status", "Status");
-                dataGridView.Columns.Add("PageNumber", "Page Number");
-            }
+        public static (List<PdfRow> rows, string selectedFolderPath, string suggestedFolderPath) LoadPdf(
+            string sourcePdfPath, ref string selectedFolderPath, ref string suggestedFolderPath)
+        {
+            List<PdfRow> rows = new List<PdfRow>();
 
             using (PdfReader reader = new PdfReader(sourcePdfPath))
             using (PdfDocument pdfDoc = new PdfDocument(reader))
@@ -129,10 +130,19 @@ namespace Bindr
                             folderPath = $@"{path}{jobNoPadded}\{jobNoRaw}-{po}";
                         }
 
-                        // Add to DataGridView: PCMK, Job_PO, Coords3, Coords4, Folder Path, Status, Page Number
-                        dataGridView.Rows.Add(pcmk, jobPo, coords3Text, coords4Text, folderPath, "", i);
+                        // Add to rows list
+                        rows.Add(new PdfRow
+                        {
+                            Pcmk = pcmk,
+                            JobPo = jobPo,
+                            FgCode = coords3Text,
+                            WoNumber = coords4Text,
+                            FolderPath = folderPath,
+                            Status = "",
+                            PageNumber = i
+                        });
 
-                        // Optional: Set label to the first folder path encountered
+                        // Set label to the first folder path encountered
                         if (string.IsNullOrEmpty(suggestedFolderPath) && !string.IsNullOrEmpty(folderPath))
                         {
                             selectedFolderPath = folderPath;
@@ -140,10 +150,13 @@ namespace Bindr
                     }
                 }
             }
+
+            return (rows, selectedFolderPath, suggestedFolderPath);
         }
 
         public static void SelectFolder(ref string selectedFolderPath)
         {
+            // Unchanged, runs on UI thread
             using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
             {
                 if (folderDialog.ShowDialog() == DialogResult.OK)
@@ -153,27 +166,31 @@ namespace Bindr
             }
         }
 
-        public static void ProcessPdfAndSaveResults(string sourcePdfPath, string selectedFolderPath, DataGridView dataGridView)
+        public struct RowUpdate
+        {
+            public int RowIndex { get; set; }
+            public string FileFound { get; set; }
+            public string Status { get; set; }
+        }
+
+
+        public static List<RowUpdate> ProcessPdfAndSaveResults(string sourcePdfPath, string selectedFolderPath, DataGridView dataGridView)
         {
             if (string.IsNullOrEmpty(sourcePdfPath) || string.IsNullOrEmpty(selectedFolderPath))
             {
-                MessageBox.Show("Please select both the PDF file and the folder first.");
-                return;
+                return null; // Let caller handle error
             }
 
-            // Ensure DataGridView has the correct columns
-            if (dataGridView.Columns.Count != 7)
-            {
-                MessageBox.Show("DataGridView column configuration is incorrect. Please reload the PDF.");
-                return;
-            }
+            // Collect row updates instead of modifying DataGridView
+            List<RowUpdate> rowUpdates = new List<RowUpdate>();
 
-            string resultsFolder = System.IO.Path.Combine(selectedFolderPath, "results");
-            Directory.CreateDirectory(resultsFolder); // ensure it exists
+            string resultsFolder = Path.Combine(selectedFolderPath, "results");
+            Directory.CreateDirectory(resultsFolder); // Ensure it exists
 
             using (var reader = new PdfReader(sourcePdfPath))
             using (var pdfDoc = new PdfDocument(reader))
             {
+                int rowIndex = 0;
                 foreach (DataGridViewRow row in dataGridView.Rows)
                 {
                     if (row.IsNewRow) continue;
@@ -185,12 +202,17 @@ namespace Bindr
                     string pageNumberStr = row.Cells[6]?.Value?.ToString();
                     if (string.IsNullOrWhiteSpace(pageNumberStr) || !int.TryParse(pageNumberStr, out int pageNumber))
                     {
-                        row.Cells[5].Value = "Invalid Page Number";
-                        row.Cells[5].Style.ForeColor = Color.Red;
+                        rowUpdates.Add(new RowUpdate
+                        {
+                            RowIndex = rowIndex,
+                            FileFound = "",
+                            Status = "Invalid Page Number"
+                        });
+                        rowIndex++;
                         continue;
                     }
 
-                    string singlePagePath = System.IO.Path.Combine(resultsFolder, $"{pcmk}.pdf");
+                    string singlePagePath = Path.Combine(resultsFolder, $"{pcmk}.pdf");
 
                     // Save single page as {pcmk}.pdf
                     using (var writer = new PdfWriter(singlePagePath))
@@ -202,14 +224,14 @@ namespace Bindr
                     // Look for matching file in selected folder
                     string matchPath = Directory.GetFiles(selectedFolderPath, "*.pdf")
                                                 .FirstOrDefault(f =>
-                                                    System.IO.Path.GetFileNameWithoutExtension(f).Equals(pcmk, StringComparison.OrdinalIgnoreCase));
+                                                    Path.GetFileNameWithoutExtension(f).Equals(pcmk, StringComparison.OrdinalIgnoreCase));
 
                     string status = "No Match Found";
                     string fileFound = "";
 
                     if (matchPath != null && matchPath != singlePagePath)
                     {
-                        string mergedPath = System.IO.Path.Combine(resultsFolder, $"{pcmk}_merged.pdf");
+                        string mergedPath = Path.Combine(resultsFolder, $"{pcmk}_merged.pdf");
 
                         using (var writer = new PdfWriter(mergedPath))
                         using (var mergedDoc = new PdfDocument(writer))
@@ -224,47 +246,44 @@ namespace Bindr
                             }
                         }
 
-                        File.Delete(singlePagePath); // optional
+                        File.Delete(singlePagePath); // Optional
 
-                        fileFound = System.IO.Path.GetFileName(matchPath);
+                        fileFound = Path.GetFileName(matchPath);
                         status = "Matched Successfully";
                     }
 
-                    // Update DataGridView
-                    row.Cells[4].Value = fileFound; // Folder Path at index 4
-                    row.Cells[5].Value = status;    // Status at index 5
-                    row.Cells[5].Style.ForeColor = (status == "Matched Successfully") ? Color.Green : Color.Red;
+                    // Collect update
+                    rowUpdates.Add(new RowUpdate
+                    {
+                        RowIndex = rowIndex,
+                        FileFound = fileFound,
+                        Status = status
+                    });
+
+                    rowIndex++;
                 }
             }
 
-            // Call MergeAllFilesInResultsFolder if needed
-            MergeAllFilesInResultsFolder(resultsFolder, dataGridView);
+            return rowUpdates;
         }
 
-        public static void MergeAllFilesInResultsFolder(string resultsFolder, DataGridView dataGridView)
+        public static string MergeAllFilesInResultsFolder(string selectedFolderPath, DataGridView dataGridView)
         {
-            // Ensure that the DataGridView has at least one row
-            if (dataGridView.Rows.Count == 0)
-            {
-                MessageBox.Show("DataGridView is empty, unable to retrieve JobPo.");
-                return;
-            }
+            string resultsFolder = Path.Combine(selectedFolderPath, "results");
 
             // Get the JobPo from the first row, column 1
             string jobPo = dataGridView.Rows[0].Cells[1].Value?.ToString()?.Trim();
 
             if (string.IsNullOrEmpty(jobPo))
             {
-                MessageBox.Show("JobPo from DataGridView is empty.");
-                return;
+                return "JobPo from DataGridView is empty.";
             }
 
             // Get all PDF files in the results folder
             string[] pdfFiles = Directory.GetFiles(resultsFolder, "*.pdf");
             if (pdfFiles.Length == 0)
             {
-                MessageBox.Show("No PDF files found in the results folder.");
-                return;
+                return "No PDF files found in the results folder.";
             }
 
             // Define the output path for the merged PDF
@@ -278,13 +297,12 @@ namespace Bindr
                     using (var pdfReader = new PdfReader(pdfFile))
                     using (var pdfToMerge = new PdfDocument(pdfReader))
                     {
-                        // Copy all pages from the current PDF to the merged document
                         pdfToMerge.CopyPagesTo(1, pdfToMerge.GetNumberOfPages(), mergedDoc);
                     }
                 }
             }
 
-            MessageBox.Show($"Merged PDF saved to: {mergedFilePath}");
+            return $"Merged PDF saved to: {mergedFilePath}";
         }
     }
 }

@@ -21,11 +21,16 @@ using System.Runtime.InteropServices;
 using System.Linq;
 using PdfiumViewer;
 
+//TODO
+//WATCH FOR NEW FILE DOWNLOAD, WHEN SELECT PDF BUTTON IS PRESSED, NAVIGATE TO THAT FOLDER.
+//LOADING ICON ONLY WORKS AFTER THE APP IS FINISHED LOADING AND PARSING THE PDF.
+//
+
+
 namespace Bindr
 {
     public partial class Main : Form
     {
-
         private string sourcePdfPath = "";
         private string selectedFolderPath = "";
         private string suggestedFolderPath = "";
@@ -102,7 +107,7 @@ namespace Bindr
         }
 
         // TAB 1
-        private void btntab1LoadPdf_Click(object sender, EventArgs e)
+        private async void btntab1LoadPdf_Click(object sender, EventArgs e)
         {
             ResetAppState();
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -112,12 +117,38 @@ namespace Bindr
             {
                 tab1StatusLabel.Text = "Status: Processing PDF";
                 loadingAnimation.Visible = true; // Show animation
-                Application.DoEvents(); // Ensure UI updates
 
                 try
                 {
                     sourcePdfPath = openFileDialog.FileName;
-                    PdfProcessor.LoadPdf(sourcePdfPath, tab1DGV, ref selectedFolderPath, ref suggestedFolderPath);
+
+                    // Run PDF processing in a background thread and get results
+                    var (rows, selectedFolder, suggestedFolder) = await Task.Run(() =>
+                        PdfProcessor.LoadPdf(sourcePdfPath, ref selectedFolderPath, ref suggestedFolderPath)
+                    );
+
+                    // Update DataGridView on UI thread
+                    tab1DGV.Rows.Clear();
+                    if (tab1DGV.Columns.Count != 7)
+                    {
+                        tab1DGV.Columns.Clear();
+                        tab1DGV.Columns.Add("PCMK", "PCMK");
+                        tab1DGV.Columns.Add("Job_PO", "Job_PO");
+                        tab1DGV.Columns.Add("FG Code", "FG Code");
+                        tab1DGV.Columns.Add("WO#", "WO#");
+                        tab1DGV.Columns.Add("FolderPath", "Folder Path");
+                        tab1DGV.Columns.Add("Status", "Status");
+                        tab1DGV.Columns.Add("PageNumber", "Page Number");
+                    }
+                    foreach (var row in rows)
+                    {
+                        tab1DGV.Rows.Add(row.Pcmk, row.JobPo, row.FgCode, row.WoNumber, row.FolderPath, row.Status, row.PageNumber);
+                    }
+
+                    // Update folder paths
+                    selectedFolderPath = selectedFolder;
+                    suggestedFolderPath = suggestedFolder;
+
                     tab1StatusLabel.Text = "Status: PDF loaded successfully.";
                 }
                 catch (Exception ex)
@@ -129,9 +160,9 @@ namespace Bindr
                     loadingAnimation.Visible = false; // Hide animation
                 }
             }
+
             btntab1SelectFolder.Enabled = true;
             btntab1Process.Enabled = true;
-
         }
 
         private void btntab1SelectFolder_Click(object sender, EventArgs e)
@@ -140,16 +171,46 @@ namespace Bindr
             tab1StatusLabel.Text = "Status: Selected Folder: " + selectedFolderPath;
         }
 
-        private void btntab1Process_Click(object sender, EventArgs e)
+        private async void btntab1Process_Click(object sender, EventArgs e)
         {
             tab1StatusLabel.Text = "Status: Processing...";
             loadingAnimation.Visible = true; // Show animation
-            Application.DoEvents(); // Ensure UI updates
 
             try
             {
-                PdfProcessor.ProcessPdfAndSaveResults(sourcePdfPath, selectedFolderPath, tab1DGV);
-                tab1StatusLabel.Text = "Status: Split and merge complete!";
+                // Run PDF processing and merging in a background thread
+                var (rowUpdates, mergeMessage) = await Task.Run(() =>
+                {
+                    var updates = PdfProcessor.ProcessPdfAndSaveResults(sourcePdfPath, selectedFolderPath, tab1DGV);
+                    string message = "";
+                    if (updates != null) // Only merge if processing succeeded
+                    {
+                        message = PdfProcessor.MergeAllFilesInResultsFolder(selectedFolderPath, tab1DGV);
+                    }
+                    return (updates, message);
+                });
+
+                if (rowUpdates == null)
+                {
+                    tab1StatusLabel.Text = "Status: Processing failed. Check inputs.";
+                }
+                else
+                {
+                    // Apply DataGridView updates on UI thread
+                    foreach (var update in rowUpdates)
+                    {
+                        var row = tab1DGV.Rows[update.RowIndex];
+                        row.Cells[4].Value = update.FileFound; // Folder Path
+                        row.Cells[5].Value = update.Status;    // Status
+                        row.Cells[5].Style.ForeColor = update.Status == "Matched Successfully" ? Color.Green : Color.Red;
+                    }
+
+                    tab1StatusLabel.Text = "Status: Split and merge complete!";
+                    if (!string.IsNullOrEmpty(mergeMessage))
+                    {
+                        MessageBox.Show(mergeMessage);
+                    }
+                }
             }
             catch (Exception ex)
             {

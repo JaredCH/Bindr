@@ -58,6 +58,7 @@ namespace Bindr
             this.txtItemNoRect = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pdfPreviewBox)).BeginInit();
             this.SuspendLayout();
@@ -177,7 +178,7 @@ namespace Bindr
             // 
             // settingsbtnSetWO
             // 
-            this.settingsbtnSetWO.Location = new System.Drawing.Point(364, 106);
+            this.settingsbtnSetWO.Location = new System.Drawing.Point(364, 140);
             this.settingsbtnSetWO.Name = "settingsbtnSetWO";
             this.settingsbtnSetWO.Size = new System.Drawing.Size(91, 21);
             this.settingsbtnSetWO.TabIndex = 13;
@@ -187,7 +188,7 @@ namespace Bindr
             // 
             // settingsbtnItemNo
             // 
-            this.settingsbtnItemNo.Location = new System.Drawing.Point(363, 149);
+            this.settingsbtnItemNo.Location = new System.Drawing.Point(363, 101);
             this.settingsbtnItemNo.Name = "settingsbtnItemNo";
             this.settingsbtnItemNo.Size = new System.Drawing.Size(91, 20);
             this.settingsbtnItemNo.TabIndex = 14;
@@ -197,14 +198,14 @@ namespace Bindr
             // 
             // txtWORect
             // 
-            this.txtWORect.Location = new System.Drawing.Point(12, 106);
+            this.txtWORect.Location = new System.Drawing.Point(12, 140);
             this.txtWORect.Name = "txtWORect";
             this.txtWORect.Size = new System.Drawing.Size(160, 20);
             this.txtWORect.TabIndex = 15;
             // 
             // txtItemNoRect
             // 
-            this.txtItemNoRect.Location = new System.Drawing.Point(12, 149);
+            this.txtItemNoRect.Location = new System.Drawing.Point(12, 101);
             this.txtItemNoRect.Name = "txtItemNoRect";
             this.txtItemNoRect.Size = new System.Drawing.Size(160, 20);
             this.txtItemNoRect.TabIndex = 16;
@@ -212,7 +213,7 @@ namespace Bindr
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(179, 109);
+            this.label4.Location = new System.Drawing.Point(179, 143);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(179, 13);
             this.label4.TabIndex = 17;
@@ -221,17 +222,28 @@ namespace Bindr
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(178, 152);
+            this.label5.Location = new System.Drawing.Point(178, 104);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(179, 13);
             this.label5.TabIndex = 18;
             this.label5.Text = "X, Y, Width, Height (from bottom left)";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(88, 287);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(82, 23);
+            this.button1.TabIndex = 19;
+            this.button1.Text = "HELP!";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // settingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1113, 624);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtItemNoRect);
@@ -279,5 +291,6 @@ namespace Bindr
         private TextBox txtItemNoRect;
         private Label label4;
         private Label label5;
+        private Button button1;
     }
 }
