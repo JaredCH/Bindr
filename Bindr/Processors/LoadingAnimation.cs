@@ -9,18 +9,18 @@ namespace Bindr
         private readonly Timer animationTimer;
         private float angle;
         private readonly int dotCount = 8;
-        private readonly float dotRadius = 5f;
-        private readonly float circleRadius = 20f;
+        private readonly float dotRadius = 30f;
+        private readonly float circleRadius = 40f;
 
         public LoadingAnimation()
         {
             SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
-            Size = new Size(60, 60);
+            Size = new Size(240, 240);
             BackColor = Color.FromArgb(0, 255, 255, 255);
 
             animationTimer = new Timer
             {
-                Interval = 50
+                Interval = 1
             };
             animationTimer.Tick += AnimationTimer_Tick;
             DoubleBuffered = true; // Ensure smooth updates
