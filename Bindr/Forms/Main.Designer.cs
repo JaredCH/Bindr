@@ -46,6 +46,7 @@ namespace Bindr
             this.tabpdfmerge = new System.Windows.Forms.TabPage();
             this.tab1DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tabreport = new System.Windows.Forms.TabPage();
+            this.tab2PDFView = new PdfiumViewer.PdfViewer();
             this.tab2StatusLabel = new System.Windows.Forms.Label();
             this.tab2DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tab2btnLoadNestPlans = new System.Windows.Forms.Button();
@@ -55,7 +56,6 @@ namespace Bindr
             this.tab2RightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSupportDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tab2PDFView = new PdfiumViewer.PdfViewer();
             this.menuStrip1.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.tabpdfmerge.SuspendLayout();
@@ -103,7 +103,7 @@ namespace Bindr
             this.btntab1Process.Name = "btntab1Process";
             this.btntab1Process.Size = new System.Drawing.Size(105, 34);
             this.btntab1Process.TabIndex = 2;
-            this.btntab1Process.Text = "Process";
+            this.btntab1Process.Text = "Merge PDFs";
             this.btntab1Process.UseVisualStyleBackColor = true;
             this.btntab1Process.Click += new System.EventHandler(this.btntab1Process_Click);
             // 
@@ -208,6 +208,19 @@ namespace Bindr
             this.tabreport.Text = "Report";
             this.tabreport.UseVisualStyleBackColor = true;
             // 
+            // tab2PDFView
+            // 
+            this.tab2PDFView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tab2PDFView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.tab2PDFView.Location = new System.Drawing.Point(567, 6);
+            this.tab2PDFView.Name = "tab2PDFView";
+            this.tab2PDFView.ShowBookmarks = false;
+            this.tab2PDFView.ShowToolbar = false;
+            this.tab2PDFView.Size = new System.Drawing.Size(293, 307);
+            this.tab2PDFView.TabIndex = 10;
+            // 
             // tab2StatusLabel
             // 
             this.tab2StatusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -267,6 +280,7 @@ namespace Bindr
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.button3.BackColor = System.Drawing.Color.Transparent;
+            this.button3.Enabled = false;
             this.button3.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.button3.FlatAppearance.BorderSize = 10;
             this.button3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -308,18 +322,6 @@ namespace Bindr
             this.loadSupportDetailToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.loadSupportDetailToolStripMenuItem.Text = "Load Support Detail";
             this.loadSupportDetailToolStripMenuItem.Click += new System.EventHandler(this.loadSupportDetailToolStripMenuItem_Click);
-            // 
-            // tab2PDFView
-            // 
-            this.tab2PDFView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tab2PDFView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.tab2PDFView.Location = new System.Drawing.Point(567, 6);
-            this.tab2PDFView.Name = "tab2PDFView";
-            this.tab2PDFView.ShowBookmarks = false;
-            this.tab2PDFView.Size = new System.Drawing.Size(293, 307);
-            this.tab2PDFView.TabIndex = 10;
             // 
             // Main
             // 

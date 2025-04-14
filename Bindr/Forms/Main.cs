@@ -24,8 +24,15 @@ using PdfiumViewer;
 //TODO
 //WATCH FOR NEW FILE DOWNLOAD, WHEN SELECT PDF BUTTON IS PRESSED, NAVIGATE TO THAT FOLDER.
 //LOADING ICON ONLY WORKS AFTER THE APP IS FINISHED LOADING AND PARSING THE PDF.
+//look for already open folder, and when selecting which pdf to process, auto navigate to that folder
+//(look for open email window, list out attatchments, determine which one has the info we need based on name, extract a date from that pdf
+//digital cubby system to auto sort, then auto print, so i dont have to sort anymore.
+    //((get highest grade plate, and thinnest plate thickness, build out a merged pdf of results, print,
+    //do that until all pdfs are consumed
+//work out a reporting tab so its out of excel.
 //
-
+//
+//
 
 namespace Bindr
 {
@@ -43,6 +50,15 @@ namespace Bindr
         public Main()
         {
             InitializeComponent();
+
+            tab1DGV.GetType()
+               .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+               .SetValue(tab1DGV, true);
+            tab2DGV.GetType()
+               .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+               .SetValue(tab1DGV, true);
+
+
             SetupDataGridView();
             pdfViewerManager = new PdfViewerManager(tab2PDFView, tab2DGV, tab1DGV, tab2StatusLabel);
 
