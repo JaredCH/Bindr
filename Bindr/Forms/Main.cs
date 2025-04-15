@@ -30,8 +30,6 @@ using ClosedXML.Excel; //nuget
 using Bindr.Processors; // Added for PoProcessor
 
 //TODO
-//folder is manually set during bom processing, use path for po process and bom upload process
-//look for already open folder, and when selecting which pdf to process, auto navigate to that folder
 //(look for open email window, list out attatchments, determine which one has the info we need based on name, extract a date from that pdf
 //digital cubby system to auto sort, then auto print, so i dont have to sort anymore.
 //((get highest grade plate, and thinnest plate thickness, build out a merged pdf of results, print,
@@ -331,7 +329,7 @@ namespace Bindr
                     foreach (var update in rowUpdates)
                     {
                         var row = tab1DGV.Rows[update.RowIndex];
-                        row.Cells[4].Value = update.FileFound; // Folder Path
+                        
                         row.Cells[5].Value = update.Status;    // Status
                         row.Cells[5].Style.ForeColor = update.Status == "Matched Successfully" ? Color.Green : Color.Red;
                     }
