@@ -17,5 +17,8 @@
     <Setting Name="Coords4" Type="System.String" Scope="User">
       <Value Profile="(Default)">103, 701, 64, 12</Value>
     </Setting>
+    <Setting Name="LastJobFolder" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Z:\Jobs</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

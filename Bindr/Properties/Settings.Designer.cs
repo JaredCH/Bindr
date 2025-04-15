@@ -82,5 +82,17 @@ namespace Bindr.Properties {
                 this["Coords4"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Z:\\Jobs")]
+        public string LastJobFolder {
+            get {
+                return ((string)(this["LastJobFolder"]));
+            }
+            set {
+                this["LastJobFolder"] = value;
+            }
+        }
     }
 }

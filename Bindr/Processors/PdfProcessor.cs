@@ -240,13 +240,26 @@ namespace Bindr
                             {
                                 doc1.CopyPagesTo(1, doc1.GetNumberOfPages(), mergedDoc);
                             }
+
                             using (var doc2 = new PdfDocument(new PdfReader(matchPath)))
                             {
                                 doc2.CopyPagesTo(1, doc2.GetNumberOfPages(), mergedDoc);
                             }
                         }
 
-                        File.Delete(singlePagePath); // Optional
+                        // Make sure everything is flushed and closed before deletion
+                        GC.Collect();
+                        GC.WaitForPendingFinalizers();
+
+                        try
+                        {
+                            File.Delete(singlePagePath);
+                        }
+                        catch (IOException ex)
+                        {
+                            // Optionally log the error or retry later
+                            Console.WriteLine($"Failed to delete {singlePagePath}: {ex.Message}");
+                        }
 
                         fileFound = Path.GetFileName(matchPath);
                         status = "Matched Successfully";

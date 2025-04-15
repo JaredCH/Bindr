@@ -284,6 +284,7 @@ namespace Bindr
                     LoadPdfAndDisplayImage(openFileDialog.FileName); // Load PDF
                 }
             }
+
         }
 
 

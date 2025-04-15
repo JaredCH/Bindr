@@ -44,6 +44,9 @@ namespace Bindr
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainTab = new System.Windows.Forms.TabControl();
             this.tabpdfmerge = new System.Windows.Forms.TabPage();
+            this.btntab1LoadBOM = new System.Windows.Forms.Button();
+            this.btntab1LoadSO = new System.Windows.Forms.Button();
+            this.btntab1ProcessBOM = new System.Windows.Forms.Button();
             this.tab1DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tabreport = new System.Windows.Forms.TabPage();
             this.tab2PDFView = new PdfiumViewer.PdfViewer();
@@ -67,12 +70,12 @@ namespace Bindr
             // 
             // btntab1LoadPdf
             // 
-            this.btntab1LoadPdf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab1LoadPdf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btntab1LoadPdf.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntab1LoadPdf.Location = new System.Drawing.Point(875, 6);
+            this.btntab1LoadPdf.Location = new System.Drawing.Point(867, 346);
             this.btntab1LoadPdf.Margin = new System.Windows.Forms.Padding(10);
             this.btntab1LoadPdf.Name = "btntab1LoadPdf";
-            this.btntab1LoadPdf.Size = new System.Drawing.Size(97, 35);
+            this.btntab1LoadPdf.Size = new System.Drawing.Size(174, 35);
             this.btntab1LoadPdf.TabIndex = 0;
             this.btntab1LoadPdf.Text = "Load JDE PDF";
             this.btntab1LoadPdf.UseVisualStyleBackColor = true;
@@ -80,15 +83,15 @@ namespace Bindr
             // 
             // btntab1SelectFolder
             // 
-            this.btntab1SelectFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab1SelectFolder.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btntab1SelectFolder.BackColor = System.Drawing.Color.Transparent;
             this.btntab1SelectFolder.Enabled = false;
             this.btntab1SelectFolder.FlatAppearance.BorderColor = System.Drawing.Color.White;
             this.btntab1SelectFolder.FlatAppearance.BorderSize = 10;
             this.btntab1SelectFolder.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btntab1SelectFolder.Location = new System.Drawing.Point(873, 68);
+            this.btntab1SelectFolder.Location = new System.Drawing.Point(865, 394);
             this.btntab1SelectFolder.Name = "btntab1SelectFolder";
-            this.btntab1SelectFolder.Size = new System.Drawing.Size(99, 35);
+            this.btntab1SelectFolder.Size = new System.Drawing.Size(176, 35);
             this.btntab1SelectFolder.TabIndex = 1;
             this.btntab1SelectFolder.Text = "Select Folder";
             this.btntab1SelectFolder.UseVisualStyleBackColor = false;
@@ -101,7 +104,7 @@ namespace Bindr
             this.btntab1Process.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btntab1Process.Location = new System.Drawing.Point(865, 445);
             this.btntab1Process.Name = "btntab1Process";
-            this.btntab1Process.Size = new System.Drawing.Size(105, 34);
+            this.btntab1Process.Size = new System.Drawing.Size(176, 34);
             this.btntab1Process.TabIndex = 2;
             this.btntab1Process.Text = "Merge PDFs";
             this.btntab1Process.UseVisualStyleBackColor = true;
@@ -162,6 +165,9 @@ namespace Bindr
             // tabpdfmerge
             // 
             this.tabpdfmerge.BackColor = System.Drawing.Color.Transparent;
+            this.tabpdfmerge.Controls.Add(this.btntab1LoadBOM);
+            this.tabpdfmerge.Controls.Add(this.btntab1LoadSO);
+            this.tabpdfmerge.Controls.Add(this.btntab1ProcessBOM);
             this.tabpdfmerge.Controls.Add(this.tab1StatusLabel);
             this.tabpdfmerge.Controls.Add(this.tab1DGV);
             this.tabpdfmerge.Controls.Add(this.btntab1LoadPdf);
@@ -173,6 +179,39 @@ namespace Bindr
             this.tabpdfmerge.Size = new System.Drawing.Size(1049, 508);
             this.tabpdfmerge.TabIndex = 0;
             this.tabpdfmerge.Text = "PDF Merge";
+            // 
+            // btntab1LoadBOM
+            // 
+            this.btntab1LoadBOM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab1LoadBOM.Location = new System.Drawing.Point(867, 86);
+            this.btntab1LoadBOM.Name = "btntab1LoadBOM";
+            this.btntab1LoadBOM.Size = new System.Drawing.Size(174, 34);
+            this.btntab1LoadBOM.TabIndex = 7;
+            this.btntab1LoadBOM.Text = "Load BOM";
+            this.btntab1LoadBOM.UseVisualStyleBackColor = true;
+            this.btntab1LoadBOM.Click += new System.EventHandler(this.btntab1LoadBOM_Click);
+            // 
+            // btntab1LoadSO
+            // 
+            this.btntab1LoadSO.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab1LoadSO.Location = new System.Drawing.Point(867, 46);
+            this.btntab1LoadSO.Name = "btntab1LoadSO";
+            this.btntab1LoadSO.Size = new System.Drawing.Size(174, 34);
+            this.btntab1LoadSO.TabIndex = 6;
+            this.btntab1LoadSO.Text = "Load Sales Order";
+            this.btntab1LoadSO.UseVisualStyleBackColor = true;
+            this.btntab1LoadSO.Click += new System.EventHandler(this.btntab1LoadSO_Click);
+            // 
+            // btntab1ProcessBOM
+            // 
+            this.btntab1ProcessBOM.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab1ProcessBOM.Location = new System.Drawing.Point(867, 6);
+            this.btntab1ProcessBOM.Name = "btntab1ProcessBOM";
+            this.btntab1ProcessBOM.Size = new System.Drawing.Size(174, 34);
+            this.btntab1ProcessBOM.TabIndex = 5;
+            this.btntab1ProcessBOM.Text = "Process BOM";
+            this.btntab1ProcessBOM.UseVisualStyleBackColor = true;
+            this.btntab1ProcessBOM.Click += new System.EventHandler(this.btntab1ProcessBOM_Click);
             // 
             // tab1DGV
             // 
@@ -296,7 +335,7 @@ namespace Bindr
             // 
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(974, 344);
+            this.tabPage1.Size = new System.Drawing.Size(1049, 508);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "JDE";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -372,5 +411,8 @@ namespace Bindr
         private ToolStripMenuItem loadPDFToolStripMenuItem;
         private ToolStripMenuItem loadSupportDetailToolStripMenuItem;
         private PdfiumViewer.PdfViewer tab2PDFView;
+        private Button btntab1ProcessBOM;
+        private Button btntab1LoadBOM;
+        private Button btntab1LoadSO;
     }
 }
