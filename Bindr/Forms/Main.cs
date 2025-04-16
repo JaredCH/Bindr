@@ -1,32 +1,11 @@
-﻿using iText.Kernel.Pdf; //nuget
-using iText.Kernel.Pdf.Canvas.Parser; //nuget
-using iText.Kernel.Pdf.Canvas.Parser.Listener; //nuget
-using iText.Kernel.Geom; //nuget
-using System;
-using System.Text;
-using System.Windows.Forms;
-using System.Linq;
-using iText.Kernel.Pdf.Canvas.Parser.Filter; //nuget
-using System.Security.Cryptography.X509Certificates;
-using System.IO;
-using System.Runtime.InteropServices;
-using Zuby.ADGV; //nuget
-using System.Drawing;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using WindowsInput;
-using WindowsInput.Native;
-using System.Threading;
-using PdfiumViewer; //pdfium upgraded version or version 2 in the nuget packager.
-using iText.Layout.Element; //nuget
-using SHDocVw; //com ref
-using Shell32; //com ref
-using System.Diagnostics;
-using System.Globalization;
-using CsvHelper; //nuget
-using ClosedXML.Excel; //nuget
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Bindr.Processors; // Added for PoProcessor
 
 //TODO

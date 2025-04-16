@@ -31,6 +31,18 @@ namespace Bindr
         private const int dpi = 206; // From RenderPdfPageToBitmap
         private string pdfPath; // Store loaded PDF path
 
+        private List<Rectangle> displayedRectangles = new List<Rectangle>();
+        private Dictionary<Rectangle, RegionMode> rectangleTypes = new Dictionary<Rectangle, RegionMode>();
+        private Dictionary<RegionMode, Color> regionColors = new Dictionary<RegionMode, Color>
+        {
+            { RegionMode.Pcmk, Color.Red },
+            { RegionMode.JobPo, Color.Blue },
+            { RegionMode.WO, Color.Green },
+            { RegionMode.ItemNo, Color.Orange }
+        };
+
+
+
         public settingsForm()
         {
             InitializeComponent();
@@ -66,6 +78,8 @@ namespace Bindr
             currentDrawMode = DrawMode.Pcmk;
             currentMode = RegionMode.Pcmk;
             FlashTextBox(txtPcmkRect, 3, 2000);
+            ClearDisplayedRegionsForMode(RegionMode.Pcmk);
+
         }
 
         private void settingsbtnSetWO_Click(object sender, EventArgs e)
@@ -73,6 +87,7 @@ namespace Bindr
             currentDrawMode = DrawMode.WO;
             currentMode = RegionMode.WO;
             FlashTextBox(txtWORect, 3, 2000);
+            ClearDisplayedRegionsForMode(RegionMode.WO);
         }
 
         private void settingsbtnItemNo_Click(object sender, EventArgs e)
@@ -80,6 +95,7 @@ namespace Bindr
             currentDrawMode = DrawMode.ItemNo;
             currentMode = RegionMode.ItemNo;
             FlashTextBox(txtItemNoRect, 3, 2000);
+            ClearDisplayedRegionsForMode(RegionMode.ItemNo);
         }
 
         private void settingsbtnSetJobPO_Click(object sender, EventArgs e)
@@ -87,6 +103,7 @@ namespace Bindr
             currentDrawMode = DrawMode.JobPo;
             currentMode = RegionMode.JobPo;
             FlashTextBox(txtJobPoRect, 3, 2000);
+            ClearDisplayedRegionsForMode(RegionMode.JobPo);
         }
 
         private void pdfPreviewBox_MouseDown(object sender, MouseEventArgs e)
@@ -154,16 +171,47 @@ namespace Bindr
                 currentMode = RegionMode.None;
                 pdfPreviewBox.Invalidate(); // Refresh box
             }
+            ShowSavedRegions();
         }
+
+
 
         private void pdfPreviewBox_Paint(object sender, PaintEventArgs e)
         {
+            // Draw the currently-being-drawn rectangle
             if (isDrawing && !currentRect.IsEmpty)
             {
-                // Draw rectangle in pixel coordinates (top-left)
                 using (var pen = new Pen(Color.Red, 2))
                 {
                     e.Graphics.DrawRectangle(pen, currentRect);
+                }
+            }
+
+            // Draw all saved rectangles
+            foreach (var rect in displayedRectangles)
+            {
+                RegionMode mode = rectangleTypes[rect];
+                Color color = regionColors.ContainsKey(mode) ? regionColors[mode] : Color.Gray;
+
+                using (var pen = new Pen(color, 2))
+                {
+                    e.Graphics.DrawRectangle(pen, rect);
+
+                    // Add a small label to identify the rectangle type
+                    string label = mode.ToString();
+                    SizeF textSize = e.Graphics.MeasureString(label, this.Font);
+
+                    using (var brush = new SolidBrush(Color.FromArgb(200, color)))
+                    {
+                        // Draw label background
+                        e.Graphics.FillRectangle(brush,
+                            rect.X, rect.Y - textSize.Height,
+                            textSize.Width, textSize.Height);
+
+                        // Draw text
+                        e.Graphics.DrawString(label, this.Font, Brushes.White,
+                            rect.X, rect.Y - textSize.Height);
+                    }
                 }
             }
         }
@@ -282,8 +330,10 @@ namespace Bindr
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     LoadPdfAndDisplayImage(openFileDialog.FileName); // Load PDF
+                    ShowSavedRegions();
                 }
             }
+
 
         }
 
@@ -330,5 +380,142 @@ namespace Bindr
         {
             Process.Start("Z:\\Pipe Supports Documentation\\Review\\PS-012_Bindr_R0.docx");
         }
+
+        public void ShowSavedRegions()
+        {
+            displayedRectangles.Clear();
+
+            // Process each saved rectangle
+            if (!string.IsNullOrEmpty(txtPcmkRect.Text))
+                AddSavedRectangle(txtPcmkRect.Text, RegionMode.Pcmk);
+
+            if (!string.IsNullOrEmpty(txtJobPoRect.Text))
+                AddSavedRectangle(txtJobPoRect.Text, RegionMode.JobPo);
+
+            if (!string.IsNullOrEmpty(txtWORect.Text))
+                AddSavedRectangle(txtWORect.Text, RegionMode.WO);
+
+            if (!string.IsNullOrEmpty(txtItemNoRect.Text))
+                AddSavedRectangle(txtItemNoRect.Text, RegionMode.ItemNo);
+
+            // Force redraw
+            pdfPreviewBox.Invalidate();
+        }
+
+        // Convert saved PDF points back to screen pixels
+        private void AddSavedRectangle(string coordsText, RegionMode mode)
+        {
+            try
+            {
+                // Parse coordinates (x, y, width, height)
+                string[] parts = coordsText.Split(',');
+                if (parts.Length != 4) return;
+
+                float x = float.Parse(parts[0].Trim());
+                float y = float.Parse(parts[1].Trim());
+                float width = float.Parse(parts[2].Trim());
+                float height = float.Parse(parts[3].Trim());
+
+                RectangleF pdfRectF = new RectangleF(x, y, width, height);
+                Rectangle screenRect = PdfPointsToPixels(pdfRectF);
+
+                // Store rectangle with its type in the dictionary
+                displayedRectangles.Add(screenRect);
+                rectangleTypes[screenRect] = mode;
+            }
+            catch (Exception ex)
+            {
+                // Silently handle parsing errors
+                Debug.WriteLine($"Error parsing coordinates: {ex.Message}");
+            }
+        }
+
+        // Convert PDF points to screen pixels (inverse of PixelsToPdfPoints)
+        private Rectangle PdfPointsToPixels(RectangleF pdfRect)
+        {
+            if (string.IsNullOrEmpty(pdfPath) || !System.IO.File.Exists(pdfPath) || pdfPreviewBox.Image == null)
+            {
+                return Rectangle.Empty;
+            }
+
+            try
+            {
+                using (var document = PdfiumViewer.PdfDocument.Load(pdfPath))
+                {
+                    // Get page size in points
+                    var pageSize = document.PageSizes[0];
+                    float pageWidthPoints = pageSize.Width;
+                    float pageHeightPoints = pageSize.Height;
+
+                    // Calculate scaling: points to pixels
+                    float scale = dpi / 72f; // 1 point = scale pixels
+
+                    // Adjust for control vs. page scaling
+                    float controlAspect = (float)pdfPreviewBox.Width / pdfPreviewBox.Height;
+                    float pageAspect = pageWidthPoints / pageHeightPoints;
+
+                    float scaleX = 1.0f;
+                    float scaleY = 1.0f;
+
+                    if (Math.Abs(controlAspect - pageAspect) > 0.01)
+                    {
+                        // Assume PDF is scaled to fit control
+                        scaleX = pdfPreviewBox.Width / pageWidthPoints;
+                        scaleY = pdfPreviewBox.Height / pageHeightPoints;
+                    }
+
+                    // Convert PDF points to pixel coordinates
+                    int pixelX = (int)Math.Round(pdfRect.X * scale * scaleX);
+                    float pdfYFromBottom = pdfRect.Y;
+
+                    // Flip Y-axis: convert bottom-left PDF Y to top-left pixel Y
+                    int pixelY = pdfPreviewBox.Height - (int)Math.Round((pdfYFromBottom + pdfRect.Height) * scale * scaleY);
+                    int pixelWidth = (int)Math.Round(pdfRect.Width * scale * scaleX);
+                    int pixelHeight = (int)Math.Round(pdfRect.Height * scale * scaleY);
+
+                    return new Rectangle(pixelX, pixelY, pixelWidth, pixelHeight);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error converting PDF to pixels: {ex.Message}");
+                return Rectangle.Empty;
+            }
+        }
+
+        // Clear displayed rectangles
+        public void ClearDisplayedRegions()
+        {
+            displayedRectangles.Clear();
+            pdfPreviewBox.Invalidate();
+        }
+
+        // Call this from each "Set" button click handler
+        private void ClearDisplayedRegionsForMode(RegionMode mode)
+        {
+            // Find rectangles of the specified mode
+            List<Rectangle> toRemove = new List<Rectangle>();
+            foreach (var kvp in rectangleTypes)
+            {
+                if (kvp.Value == mode)
+                {
+                    toRemove.Add(kvp.Key);
+                }
+            }
+
+            // Remove them from both collections
+            foreach (var rect in toRemove)
+            {
+                displayedRectangles.Remove(rect);
+                rectangleTypes.Remove(rect);
+            }
+
+            pdfPreviewBox.Invalidate();
+        }
+
+
+
+
+
     }
 }
