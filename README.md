@@ -53,7 +53,9 @@
 ---
 
 🛠️ Planned Features
+
 🔌 SQL Integration (In Development)
+
 A major leap forward: Integrating Bindr with your existing SQL database will unlock powerful real-time workflows. Once connected, Bindr will support:
 
 📂 Viewing live support statuses directly from the database.
