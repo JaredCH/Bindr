@@ -46,9 +46,23 @@
 
 ## ⚙️ Under the Hood
 
-- Built in **C# WinForms**.
-- Uses **Pdfium** for PDF rendering and text extraction.
-- Optimized for clipboard workflows, so you can move clean, parsed data directly into downstream tools like JDE and the PS tool with a single paste.
+Bindr is built in **C# WinForms** and powered by a blend of libraries that enable robust document workflows, smart automation, and smooth UI performance.
+
+### 🧰 Key NuGet Packages
+
+- **[PdfiumViewer](https://www.nuget.org/packages/PdfiumViewer/)** – For rendering and navigating PDF pages inside the app.
+- **[iTextSharp.LGPLv2.Core](https://www.nuget.org/packages/iTextSharp.LGPLv2.Core/)** – For parsing, manipulating, and extracting raw text from PDFs.
+- **[DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml/)** – For reading and extracting data from modern `.xlsx` spreadsheets (used in Load SO / Load BOM).
+- **[CsvHelper](https://www.nuget.org/packages/CsvHelper/)** – For parsing and cleaning CSV files like BOMs with speed and reliability.
+- **[System.Text.Encoding.CodePages](https://www.nuget.org/packages/System.Text.Encoding.CodePages/)** – Ensures correct encoding interpretation in some file formats.
+- **[Dapper](https://www.nuget.org/packages/Dapper/)** – *(Planned)* Lightweight SQL ORM to power fast, clean queries once database integration is added.
+
+### 🧪 Core Features Powered By
+
+- PDF coordinate mapping using Pdfium + iTextSharp for multi-page text harvesting from smart PDFs.
+- Background threading for fast, non-blocking file loading (Load SO / Load BOM / Nestplan parsing).
+- Smart clipboard automation for copying processed data into external tools like JDE / PS.
+
 
 ---
 
