@@ -1,4 +1,4 @@
-# 📎 Bindr
+<img src="https://github.com/user-attachments/assets/ab136cae-62df-4c13-94b1-0e7d32721729" width="75"> <span style="margin-left: 2px;">**Support Bindr**</span>
 
 **Bindr** is a Windows Forms utility app built to automate and streamline document workflows related to JDE Riders, BOMs, NestPlans, and more — tailored for use in an industrial or manufacturing environment.
 
