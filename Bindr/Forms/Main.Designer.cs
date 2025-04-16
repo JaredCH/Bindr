@@ -59,12 +59,14 @@ namespace Bindr
             this.tab2RightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSupportDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.tabpdfmerge.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab1DGV)).BeginInit();
             this.tabreport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).BeginInit();
+            this.tabPage1.SuspendLayout();
             this.tab2RightClick.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -333,6 +335,7 @@ namespace Bindr
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(1049, 508);
@@ -362,6 +365,15 @@ namespace Bindr
             this.loadSupportDetailToolStripMenuItem.Text = "Load Support Detail";
             this.loadSupportDetailToolStripMenuItem.Click += new System.EventHandler(this.loadSupportDetailToolStripMenuItem_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(244, 99);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(348, 142);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -383,6 +395,7 @@ namespace Bindr
             this.tabreport.ResumeLayout(false);
             this.tabreport.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).EndInit();
+            this.tabPage1.ResumeLayout(false);
             this.tab2RightClick.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -414,5 +427,6 @@ namespace Bindr
         private Button btntab1ProcessBOM;
         private Button btntab1LoadBOM;
         private Button btntab1LoadSO;
+        private Button button1;
     }
 }
