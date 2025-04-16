@@ -52,11 +52,62 @@
 
 ---
 
-## 🛠️ Planned Features
+🛠️ Planned Features
+🔌 SQL Integration (In Development)
+A major leap forward: integrating Bindr with your existing SQL database will unlock powerful real-time workflows. Once connected, Bindr will support:
 
-- 🔗 SQL integration with Epicor for live support and NestPlan lookup.
-- 🖼️ Thumbnail previews of matched support files or NestPlan documents.
-- 📋 Batch PDF merge automation.
+📂 Viewing live support statuses directly from the database.
+
+🔍 Instant access to support BOMs for verification, traceability, and planning.
+
+📝 Auto-generated reports to manage support production flow.
+
+🚪 Enables transition into a paperless workflow — no more manual BOM sorting or status tracking.
+
+⚙️ Smart grouping and sorting of supports:
+
+By plate material and thickness
+
+By pipe size, beam size, or angle size (for non-plate supports)
+
+Resulting in a "digital cubby" system for managing all in-progress support work.
+
+📦 Release Evaluation System
+With live BOMs and on-hand stock pulled from SQL, Bindr will be able to:
+
+Instantly determine what can be released based on current inventory.
+
+Generate release-ready reports with options to:
+
+Release & print
+
+Batch email downstream teams
+
+Update internal statuses
+
+🖥️ Full-Size PDF Viewing
+Users will be able to right-click any support or nestplan record and open the full PDF in-app — no external viewer required.
+
+Smooth, embedded experience for checking details without losing workflow context.
+
+📚 Batch PDF Merge Workflow
+A huge boost for efficiency:
+
+Combine multiple support details or nestplans into a single PDF package.
+
+Each batch can be:
+
+Drawn
+
+Released
+
+Status-updated
+
+Printed
+
+Emailed
+
+Seamlessly integrated into the digital cubby system, empowering teams to process grouped supports faster and smarter.
 
 ---
 
