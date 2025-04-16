@@ -56,10 +56,15 @@ namespace Bindr
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btntab3LoadReport = new System.Windows.Forms.Button();
+            this.tab3DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tab2RightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSupportDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
+            this.tab3contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btntab3summarize = new System.Windows.Forms.Button();
+            this.btntab3reset = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.tabpdfmerge.SuspendLayout();
@@ -67,7 +72,9 @@ namespace Bindr
             this.tabreport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).BeginInit();
             this.tabPage1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.tab3DGV)).BeginInit();
             this.tab2RightClick.SuspendLayout();
+            this.tab3contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // btntab1LoadPdf
@@ -335,13 +342,41 @@ namespace Bindr
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.button1);
+            this.tabPage1.Controls.Add(this.btntab3reset);
+            this.tabPage1.Controls.Add(this.btntab3summarize);
+            this.tabPage1.Controls.Add(this.btntab3LoadReport);
+            this.tabPage1.Controls.Add(this.tab3DGV);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Size = new System.Drawing.Size(1049, 508);
             this.tabPage1.TabIndex = 2;
             this.tabPage1.Text = "JDE";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btntab3LoadReport
+            // 
+            this.btntab3LoadReport.Location = new System.Drawing.Point(929, 468);
+            this.btntab3LoadReport.Name = "btntab3LoadReport";
+            this.btntab3LoadReport.Size = new System.Drawing.Size(112, 30);
+            this.btntab3LoadReport.TabIndex = 1;
+            this.btntab3LoadReport.Text = "load report";
+            this.btntab3LoadReport.UseVisualStyleBackColor = true;
+            this.btntab3LoadReport.Click += new System.EventHandler(this.btntab3LoadReport_Click);
+            // 
+            // tab3DGV
+            // 
+            this.tab3DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.tab3DGV.ContextMenuStrip = this.tab3contextMenuStrip1;
+            this.tab3DGV.FilterAndSortEnabled = true;
+            this.tab3DGV.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
+            this.tab3DGV.Location = new System.Drawing.Point(6, 7);
+            this.tab3DGV.MaxFilterButtonImageHeight = 23;
+            this.tab3DGV.Name = "tab3DGV";
+            this.tab3DGV.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.tab3DGV.Size = new System.Drawing.Size(1040, 455);
+            this.tab3DGV.SortStringChangedInvokeBeforeDatasourceUpdate = true;
+            this.tab3DGV.TabIndex = 0;
+            this.tab3DGV.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tab3DGV_CellDoubleClick);
             // 
             // tab2RightClick
             // 
@@ -365,14 +400,39 @@ namespace Bindr
             this.loadSupportDetailToolStripMenuItem.Text = "Load Support Detail";
             this.loadSupportDetailToolStripMenuItem.Click += new System.EventHandler(this.loadSupportDetailToolStripMenuItem_Click);
             // 
-            // button1
+            // tab3contextMenuStrip1
             // 
-            this.button1.Location = new System.Drawing.Point(244, 99);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(348, 142);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.tab3contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openDetailToolStripMenuItem});
+            this.tab3contextMenuStrip1.Name = "tab3contextMenuStrip1";
+            this.tab3contextMenuStrip1.Size = new System.Drawing.Size(137, 26);
+            // 
+            // openDetailToolStripMenuItem
+            // 
+            this.openDetailToolStripMenuItem.Name = "openDetailToolStripMenuItem";
+            this.openDetailToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.openDetailToolStripMenuItem.Text = "Open Detail";
+            this.openDetailToolStripMenuItem.Click += new System.EventHandler(this.openDetailToolStripMenuItem_Click);
+            // 
+            // btntab3summarize
+            // 
+            this.btntab3summarize.Location = new System.Drawing.Point(811, 468);
+            this.btntab3summarize.Name = "btntab3summarize";
+            this.btntab3summarize.Size = new System.Drawing.Size(112, 30);
+            this.btntab3summarize.TabIndex = 2;
+            this.btntab3summarize.Text = "summarize";
+            this.btntab3summarize.UseVisualStyleBackColor = true;
+            this.btntab3summarize.Click += new System.EventHandler(this.btntab3summarize_Click);
+            // 
+            // btntab3reset
+            // 
+            this.btntab3reset.Location = new System.Drawing.Point(693, 468);
+            this.btntab3reset.Name = "btntab3reset";
+            this.btntab3reset.Size = new System.Drawing.Size(112, 30);
+            this.btntab3reset.TabIndex = 3;
+            this.btntab3reset.Text = "reset";
+            this.btntab3reset.UseVisualStyleBackColor = true;
+            this.btntab3reset.Click += new System.EventHandler(this.btntab3reset_Click);
             // 
             // Main
             // 
@@ -396,7 +456,9 @@ namespace Bindr
             this.tabreport.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).EndInit();
             this.tabPage1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.tab3DGV)).EndInit();
             this.tab2RightClick.ResumeLayout(false);
+            this.tab3contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -427,6 +489,11 @@ namespace Bindr
         private Button btntab1ProcessBOM;
         private Button btntab1LoadBOM;
         private Button btntab1LoadSO;
-        private Button button1;
+        private Button btntab3LoadReport;
+        private Zuby.ADGV.AdvancedDataGridView tab3DGV;
+        private ContextMenuStrip tab3contextMenuStrip1;
+        private ToolStripMenuItem openDetailToolStripMenuItem;
+        private Button btntab3summarize;
+        private Button btntab3reset;
     }
 }

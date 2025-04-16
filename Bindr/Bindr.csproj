@@ -253,6 +253,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Tab2\NestPlanProcessorTab2.cs" />
+    <Compile Include="Tab3\Tab3Logic.cs" />
     <EmbeddedResource Include="Forms\Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
