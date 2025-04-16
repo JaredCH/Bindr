@@ -1,33 +1,68 @@
-# Bindr
+# 📎 Bindr
 
-Bindr is a powerful desktop utility designed to streamline the process of extracting, analyzing, and compiling data from PDF files—particularly for workflows involving nested plans (NestPlans). Built with flexibility and efficiency in mind, Bindr allows users to map multiple text extraction points from PDFs, intelligently merge documents, and generate detailed reports.
+**Bindr** is a Windows Forms utility app built to automate and streamline document workflows related to JDE Riders, BOMs, NestPlans, and more — tailored for use in an industrial or manufacturing environment.
 
-## 🚀 Features
+---
 
-- 📄 **PDF Text Extraction**  
-  Easily map specific areas of a PDF to extract key data fields with precision.
+## 🚀 Key Features
 
-- 🔗 **PDF Merging**  
-  Automatically merge matching PDF files into the original based on extracted field data and filename comparison.
+### 🧠 Smart PDF Extraction + Merging
+- Load in a PDF (e.g., a JDE Rider).
+- Automatically extract specific text from each page.
+- Match and merge support detail PDFs with the Rider PDF using the extracted data.
 
-- 🗺 **Multi-Field Mapping**  
-  Users can define multiple extraction regions for more complex document parsing.
+---
 
-- 🧠 **NestPlan Parsing**  
-  Built-in support for reading and interpreting NestPlans, with the ability to generate comprehensive reports.
+### 📄 Process BOM
+- Open a BOM CSV file.
+- Automatically:
+  - Replace blank fields with `0`.
+  - Strip out odd characters like `%`.
+  - Replace `#` symbols with `0`.
+- Cleaned data is copied to the clipboard, ready to paste into the PS tool.
 
-- 📊 **Report Generation**  
-  Automatically compile extracted data into structured reports for downstream use.
+---
 
-## 🛠️ Tech Stack
+### 📥 Load SO / Load BOM
+- Reads `.xlsv` files in the background (non-blocking).
+- Extracts relevant SO or BOM data and places it on the clipboard.
+- Designed for quick transfer into JDE with no manual cleanup.
 
-- **C# / Windows Forms App** – Core desktop application
-- **PDF Libraries** – For reading, merging, and text extraction
-- **Custom UI Mapping Tools** – For defining and saving field extraction regions
+---
 
-## 🧰 Installation
+### 🗺️ PDF Coordinate Mapping (NEW!)
+- Define up to **4 mappable coordinates** on a 'smart' PDF (text-based, not scanned images).
+- Bindr processes every page using the mapped areas to extract relevant data across the document.
 
-1. Clone the repository  
-   ```bash
-   git clone https://github.com/yourusername/bindr.git
-   cd bindr
+---
+
+### 🧾 NestPlan Data Viewer (NEW!)
+- Parses and displays metadata from NestPlan files (plasma metal cutter machine instructions).
+- Extracts part numbers and key attributes.
+- Includes a **right-click preview** option to show NestPlan PDF or related support detail (initial functionality implemented).
+- Future support planned: live data access via Epicor SQL integration.
+
+---
+
+## ⚙️ Under the Hood
+
+- Built in **C# WinForms**.
+- Uses **Pdfium** for PDF rendering and text extraction.
+- Optimized for clipboard workflows, so you can move clean, parsed data directly into downstream tools like JDE and the PS tool with a single paste.
+
+---
+
+## 🛠️ Planned Features
+
+- 🔗 SQL integration with Epicor for live support and NestPlan lookup.
+- 🖼️ Thumbnail previews of matched support files or NestPlan documents.
+- 📋 Batch PDF merge automation.
+
+---
+
+## 📂 Installation
+
+Clone this repo and open the project in Visual Studio:
+
+```bash
+git clone https://github.com/JaredCH/Bindr.git
