@@ -51,6 +51,7 @@ Bindr is built in **C# WinForms** and powered by a blend of libraries that enabl
 ### 🧰 Key NuGet Packages
 
 - **[PdfiumViewer](https://www.nuget.org/packages/PdfiumViewer/)** – For rendering and navigating PDF pages inside the app.
+- **[AdvancedDataGridView](https://www.nuget.org/packages/AdvancedDataGridView/)** – For advanced grid features like filtering, sorting, and column visibility.
 - **[iTextSharp.LGPLv2.Core](https://www.nuget.org/packages/iTextSharp.LGPLv2.Core/)** – For parsing, manipulating, and extracting raw text from PDFs.
 - **[DocumentFormat.OpenXml](https://www.nuget.org/packages/DocumentFormat.OpenXml/)** – For reading and extracting data from modern `.xlsx` spreadsheets (used in Load SO / Load BOM).
 - **[CsvHelper](https://www.nuget.org/packages/CsvHelper/)** – For parsing and cleaning CSV files like BOMs with speed and reliability.
