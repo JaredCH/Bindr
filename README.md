@@ -10,7 +10,7 @@
 - Load in a PDF (e.g., a JDE Rider).
 - Automatically extract specific text from each page.
 - Match and merge support detail PDFs with the Rider PDF using the extracted data.
-
+- Time Saved: 5-30 minutes per PO.
 ---
 
 ### 📄 Process BOM
@@ -19,15 +19,15 @@
   - Replace blank fields with `0`.
   - Strip out odd characters like `%`.
   - Replace `#` symbols with `0`.
-- Cleaned data is copied to the clipboard, ready to paste into the PS tool.
-
+- Cleaned data is copied to the clipboard and is ready to paste into the PS tool.
+- Time Saved: 1-2 minutes per PO.
 ---
 
 ### 📥 Load SO / Load BOM
 - Reads `.xlsv` files in the background (non-blocking).
 - Extracts relevant SO or BOM data and places it on the clipboard.
 - Designed for quick transfer into JDE with no manual cleanup.
-
+- Time Saved: 30-45 seconds per PO.
 ---
 
 ### 🗺️ PDF Coordinate Mapping (NEW!)
@@ -54,7 +54,7 @@
 
 🛠️ Planned Features
 🔌 SQL Integration (In Development)
-A major leap forward: integrating Bindr with your existing SQL database will unlock powerful real-time workflows. Once connected, Bindr will support:
+A major leap forward: Integrating Bindr with your existing SQL database will unlock powerful real-time workflows. Once connected, Bindr will support:
 
 📂 Viewing live support statuses directly from the database.
 
@@ -86,7 +86,7 @@ Batch email downstream teams
 Update internal statuses
 
 🖥️ Full-Size PDF Viewing
-Users will be able to right-click any support or nestplan record and open the full PDF in-app — no external viewer required.
+Users will be able to right-click any support or nest plan record and open the full PDF in the app—no external viewer is required.
 
 Smooth, embedded experience for checking details without losing workflow context.
 
