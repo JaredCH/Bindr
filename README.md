@@ -56,6 +56,7 @@ Bindr is built in **C# WinForms** and powered by a blend of libraries that enabl
 - **[CsvHelper](https://www.nuget.org/packages/CsvHelper/)** – For parsing and cleaning CSV files like BOMs with speed and reliability.
 - **[System.Text.Encoding.CodePages](https://www.nuget.org/packages/System.Text.Encoding.CodePages/)** – Ensures correct encoding interpretation in some file formats.
 - **[Dapper](https://www.nuget.org/packages/Dapper/)** – *(Planned)* Lightweight SQL ORM to power fast, clean queries once database integration is added.
+- - **[LiveChartsCore.SkiaSharpView.WinForms](https://www.nuget.org/packages/LiveChartsCore.SkiaSharpView.WinForms/)** *(Planned)* – A modern charting library for live, interactive dashboards and reports.
 
 ### 🧪 Core Features Powered By
 
@@ -115,6 +116,12 @@ A huge boost for efficiency:
   - Emailed
 - Seamlessly integrated into the **digital cubby** system, empowering teams to process grouped supports faster and smarter.
 
+- **📊 Modern Reporting Dashboards**  
+  Integration with **LiveCharts2** to show clean, real-time visualizations:
+  - Support status overview
+  - Release readiness
+  - Financial tracking
+  - NestPlan or fabrication throughput
 
 ---
 
