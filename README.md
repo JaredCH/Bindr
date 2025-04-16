@@ -40,7 +40,7 @@
 - Parses and displays metadata from NestPlan files (plasma metal cutter machine instructions).
 - Extracts part numbers and key attributes.
 - Includes a **right-click preview** option to show NestPlan PDF or related support detail (initial functionality implemented).
-- Future support planned: live data access via Epicor SQL integration.
+- Future support planned: live data access via SQL integration.
 
 ---
 
