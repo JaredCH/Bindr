@@ -116,6 +116,8 @@ A huge boost for efficiency:
   - Emailed
 - Seamlessly integrated into the **digital cubby** system, empowering teams to process grouped supports faster and smarter.
 
+
+
 **📊 Modern Reporting Dashboards**  
 
   Integration with **LiveCharts2** to show clean, real-time visualizations:
