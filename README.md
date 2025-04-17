@@ -6,6 +6,24 @@
 
 ## 🚀 Key Features
 
+### 📊 JDE Reporting (In Development)
+
+**JDE Reporting** is designed to enhance support tracking and reporting for your industrial and manufacturing processes. Currently, it supports loading reports from an Excel file, with plans to integrate SQL data sources for future versions. Key features include:
+
+- 📂 **Load Reports**: Import and view a summarized roll-up of reports, showing a list of jobs and the quantity of supports per status.
+- 🔍 **Job & Status Drill-Down**: Double-click on a job or status to see a detailed view of all supports for that specific job and status.
+- ⚙️ **Right-Click Functionality**:
+  - View support details by right-clicking any cell in the report.
+  - Open merged PO files for further inspection directly from any cell.
+- 📊 **FG Code Breakdown**: View and total supports by FG code for a more detailed analysis.
+- 🔄 **Future Features** (Planned):
+  - Revenue roll-ups, including daily, weekly, monthly, and yearly breakdowns.
+  - Track and visualize changes over time, with easy-to-read graphs and charts.
+  - Additional reporting enhancements for more granular control over support data.
+---
+
+The future updates will provide powerful insights into support statuses and allow for more sophisticated tracking, helping you make data-driven decisions in real time.
+
 ### 🧠 Smart PDF Extraction + Merging
 - Load in a PDF (e.g., a JDE Rider).
 - Automatically extract specific text from each page.
