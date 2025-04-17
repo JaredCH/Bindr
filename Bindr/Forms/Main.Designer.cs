@@ -55,26 +55,33 @@ namespace Bindr
             this.tab2btnLoadNestPlans = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabJDE = new System.Windows.Forms.TabPage();
+            this.btntab3FGSort = new System.Windows.Forms.Button();
+            this.btntab3reset = new System.Windows.Forms.Button();
+            this.btntab3summarize = new System.Windows.Forms.Button();
             this.btntab3LoadReport = new System.Windows.Forms.Button();
             this.tab3DGV = new Zuby.ADGV.AdvancedDataGridView();
+            this.tab3contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openWOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabView = new System.Windows.Forms.TabPage();
+            this.advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
+            this.tab4PDFView = new PdfiumViewer.PdfViewer();
             this.tab2RightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSupportDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tab3contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.openDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btntab3summarize = new System.Windows.Forms.Button();
-            this.btntab3reset = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.tabpdfmerge.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab1DGV)).BeginInit();
             this.tabreport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).BeginInit();
-            this.tabPage1.SuspendLayout();
+            this.tabJDE.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab3DGV)).BeginInit();
-            this.tab2RightClick.SuspendLayout();
             this.tab3contextMenuStrip1.SuspendLayout();
+            this.tabView.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).BeginInit();
+            this.tab2RightClick.SuspendLayout();
             this.SuspendLayout();
             // 
             // btntab1LoadPdf
@@ -164,7 +171,8 @@ namespace Bindr
             | System.Windows.Forms.AnchorStyles.Right)));
             this.MainTab.Controls.Add(this.tabpdfmerge);
             this.MainTab.Controls.Add(this.tabreport);
-            this.MainTab.Controls.Add(this.tabPage1);
+            this.MainTab.Controls.Add(this.tabJDE);
+            this.MainTab.Controls.Add(this.tabView);
             this.MainTab.Location = new System.Drawing.Point(0, 23);
             this.MainTab.Name = "MainTab";
             this.MainTab.SelectedIndex = 0;
@@ -340,21 +348,56 @@ namespace Bindr
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // tabPage1
+            // tabJDE
             // 
-            this.tabPage1.Controls.Add(this.btntab3reset);
-            this.tabPage1.Controls.Add(this.btntab3summarize);
-            this.tabPage1.Controls.Add(this.btntab3LoadReport);
-            this.tabPage1.Controls.Add(this.tab3DGV);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage1.TabIndex = 2;
-            this.tabPage1.Text = "JDE";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.tabJDE.Controls.Add(this.btntab3FGSort);
+            this.tabJDE.Controls.Add(this.btntab3reset);
+            this.tabJDE.Controls.Add(this.btntab3summarize);
+            this.tabJDE.Controls.Add(this.btntab3LoadReport);
+            this.tabJDE.Controls.Add(this.tab3DGV);
+            this.tabJDE.Location = new System.Drawing.Point(4, 22);
+            this.tabJDE.Name = "tabJDE";
+            this.tabJDE.Size = new System.Drawing.Size(1049, 508);
+            this.tabJDE.TabIndex = 2;
+            this.tabJDE.Text = "JDE";
+            this.tabJDE.UseVisualStyleBackColor = true;
+            // 
+            // btntab3FGSort
+            // 
+            this.btntab3FGSort.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab3FGSort.Location = new System.Drawing.Point(575, 467);
+            this.btntab3FGSort.Name = "btntab3FGSort";
+            this.btntab3FGSort.Size = new System.Drawing.Size(112, 30);
+            this.btntab3FGSort.TabIndex = 4;
+            this.btntab3FGSort.Text = "FG Sort";
+            this.btntab3FGSort.UseVisualStyleBackColor = true;
+            this.btntab3FGSort.Click += new System.EventHandler(this.btntab3FGSort_Click);
+            // 
+            // btntab3reset
+            // 
+            this.btntab3reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab3reset.Location = new System.Drawing.Point(693, 468);
+            this.btntab3reset.Name = "btntab3reset";
+            this.btntab3reset.Size = new System.Drawing.Size(112, 30);
+            this.btntab3reset.TabIndex = 3;
+            this.btntab3reset.Text = "reset";
+            this.btntab3reset.UseVisualStyleBackColor = true;
+            this.btntab3reset.Click += new System.EventHandler(this.btntab3reset_Click);
+            // 
+            // btntab3summarize
+            // 
+            this.btntab3summarize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btntab3summarize.Location = new System.Drawing.Point(811, 468);
+            this.btntab3summarize.Name = "btntab3summarize";
+            this.btntab3summarize.Size = new System.Drawing.Size(112, 30);
+            this.btntab3summarize.TabIndex = 2;
+            this.btntab3summarize.Text = "summarize";
+            this.btntab3summarize.UseVisualStyleBackColor = true;
+            this.btntab3summarize.Click += new System.EventHandler(this.btntab3summarize_Click);
             // 
             // btntab3LoadReport
             // 
+            this.btntab3LoadReport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btntab3LoadReport.Location = new System.Drawing.Point(929, 468);
             this.btntab3LoadReport.Name = "btntab3LoadReport";
             this.btntab3LoadReport.Size = new System.Drawing.Size(112, 30);
@@ -365,6 +408,12 @@ namespace Bindr
             // 
             // tab3DGV
             // 
+            this.tab3DGV.AllowUserToAddRows = false;
+            this.tab3DGV.AllowUserToDeleteRows = false;
+            this.tab3DGV.AllowUserToOrderColumns = true;
+            this.tab3DGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tab3DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.tab3DGV.ContextMenuStrip = this.tab3contextMenuStrip1;
             this.tab3DGV.FilterAndSortEnabled = true;
@@ -377,6 +426,65 @@ namespace Bindr
             this.tab3DGV.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             this.tab3DGV.TabIndex = 0;
             this.tab3DGV.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tab3DGV_CellDoubleClick);
+            // 
+            // tab3contextMenuStrip1
+            // 
+            this.tab3contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openDetailToolStripMenuItem,
+            this.openWOToolStripMenuItem});
+            this.tab3contextMenuStrip1.Name = "tab3contextMenuStrip1";
+            this.tab3contextMenuStrip1.Size = new System.Drawing.Size(137, 48);
+            // 
+            // openDetailToolStripMenuItem
+            // 
+            this.openDetailToolStripMenuItem.Name = "openDetailToolStripMenuItem";
+            this.openDetailToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.openDetailToolStripMenuItem.Text = "Open Detail";
+            this.openDetailToolStripMenuItem.Click += new System.EventHandler(this.openDetailToolStripMenuItem_Click);
+            // 
+            // openWOToolStripMenuItem
+            // 
+            this.openWOToolStripMenuItem.Name = "openWOToolStripMenuItem";
+            this.openWOToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.openWOToolStripMenuItem.Text = "Open WO";
+            this.openWOToolStripMenuItem.Click += new System.EventHandler(this.openWOToolStripMenuItem_Click);
+            // 
+            // tabView
+            // 
+            this.tabView.Controls.Add(this.advancedDataGridView1);
+            this.tabView.Controls.Add(this.tab4PDFView);
+            this.tabView.Location = new System.Drawing.Point(4, 22);
+            this.tabView.Name = "tabView";
+            this.tabView.Size = new System.Drawing.Size(1049, 508);
+            this.tabView.TabIndex = 3;
+            this.tabView.Text = "View";
+            this.tabView.UseVisualStyleBackColor = true;
+            // 
+            // advancedDataGridView1
+            // 
+            this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.advancedDataGridView1.FilterAndSortEnabled = true;
+            this.advancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
+            this.advancedDataGridView1.Location = new System.Drawing.Point(726, 6);
+            this.advancedDataGridView1.MaxFilterButtonImageHeight = 23;
+            this.advancedDataGridView1.Name = "advancedDataGridView1";
+            this.advancedDataGridView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.advancedDataGridView1.Size = new System.Drawing.Size(322, 500);
+            this.advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
+            this.advancedDataGridView1.TabIndex = 1;
+            // 
+            // tab4PDFView
+            // 
+            this.tab4PDFView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tab4PDFView.Location = new System.Drawing.Point(7, 4);
+            this.tab4PDFView.Name = "tab4PDFView";
+            this.tab4PDFView.ShowBookmarks = false;
+            this.tab4PDFView.Size = new System.Drawing.Size(713, 503);
+            this.tab4PDFView.TabIndex = 0;
             // 
             // tab2RightClick
             // 
@@ -400,40 +508,6 @@ namespace Bindr
             this.loadSupportDetailToolStripMenuItem.Text = "Load Support Detail";
             this.loadSupportDetailToolStripMenuItem.Click += new System.EventHandler(this.loadSupportDetailToolStripMenuItem_Click);
             // 
-            // tab3contextMenuStrip1
-            // 
-            this.tab3contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openDetailToolStripMenuItem});
-            this.tab3contextMenuStrip1.Name = "tab3contextMenuStrip1";
-            this.tab3contextMenuStrip1.Size = new System.Drawing.Size(137, 26);
-            // 
-            // openDetailToolStripMenuItem
-            // 
-            this.openDetailToolStripMenuItem.Name = "openDetailToolStripMenuItem";
-            this.openDetailToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
-            this.openDetailToolStripMenuItem.Text = "Open Detail";
-            this.openDetailToolStripMenuItem.Click += new System.EventHandler(this.openDetailToolStripMenuItem_Click);
-            // 
-            // btntab3summarize
-            // 
-            this.btntab3summarize.Location = new System.Drawing.Point(811, 468);
-            this.btntab3summarize.Name = "btntab3summarize";
-            this.btntab3summarize.Size = new System.Drawing.Size(112, 30);
-            this.btntab3summarize.TabIndex = 2;
-            this.btntab3summarize.Text = "summarize";
-            this.btntab3summarize.UseVisualStyleBackColor = true;
-            this.btntab3summarize.Click += new System.EventHandler(this.btntab3summarize_Click);
-            // 
-            // btntab3reset
-            // 
-            this.btntab3reset.Location = new System.Drawing.Point(693, 468);
-            this.btntab3reset.Name = "btntab3reset";
-            this.btntab3reset.Size = new System.Drawing.Size(112, 30);
-            this.btntab3reset.TabIndex = 3;
-            this.btntab3reset.Text = "reset";
-            this.btntab3reset.UseVisualStyleBackColor = true;
-            this.btntab3reset.Click += new System.EventHandler(this.btntab3reset_Click);
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -455,10 +529,12 @@ namespace Bindr
             this.tabreport.ResumeLayout(false);
             this.tabreport.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).EndInit();
-            this.tabPage1.ResumeLayout(false);
+            this.tabJDE.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tab3DGV)).EndInit();
-            this.tab2RightClick.ResumeLayout(false);
             this.tab3contextMenuStrip1.ResumeLayout(false);
+            this.tabView.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.advancedDataGridView1)).EndInit();
+            this.tab2RightClick.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -475,12 +551,12 @@ namespace Bindr
         private Button btntab1SelectFolder;
         private Button btntab1Process;
         private Label tab1StatusLabel;
-        private TabControl MainTab;
+        public TabControl MainTab;
         private Zuby.ADGV.AdvancedDataGridView tab2DGV;
         private Button tab2btnLoadNestPlans;
         private Button button2;
         private Button button3;
-        private TabPage tabPage1;
+        private TabPage tabJDE;
         private Label tab2StatusLabel;
         private ContextMenuStrip tab2RightClick;
         private ToolStripMenuItem loadPDFToolStripMenuItem;
@@ -495,5 +571,10 @@ namespace Bindr
         private ToolStripMenuItem openDetailToolStripMenuItem;
         private Button btntab3summarize;
         private Button btntab3reset;
+        private ToolStripMenuItem openWOToolStripMenuItem;
+        private Button btntab3FGSort;
+        private TabPage tabView;
+        private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
+        private PdfiumViewer.PdfViewer tab4PDFView;
     }
 }

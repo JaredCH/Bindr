@@ -21,7 +21,6 @@ namespace Bindr
     public partial class settingsForm : Form
     {
         private enum RegionMode { None, Pcmk, JobPo, WO, ItemNo }
-        private RegionMode currentMode = RegionMode.None;
         private enum DrawMode { None, Pcmk, JobPo, WO, ItemNo }
         private DrawMode currentDrawMode = DrawMode.None;
         private bool isDrawing = false;
@@ -76,7 +75,6 @@ namespace Bindr
         private void settingsbtnSetPCMK_Click(object sender, EventArgs e)
         {
             currentDrawMode = DrawMode.Pcmk;
-            currentMode = RegionMode.Pcmk;
             FlashTextBox(txtPcmkRect, 3, 2000);
             ClearDisplayedRegionsForMode(RegionMode.Pcmk);
 
@@ -85,7 +83,6 @@ namespace Bindr
         private void settingsbtnSetWO_Click(object sender, EventArgs e)
         {
             currentDrawMode = DrawMode.WO;
-            currentMode = RegionMode.WO;
             FlashTextBox(txtWORect, 3, 2000);
             ClearDisplayedRegionsForMode(RegionMode.WO);
         }
@@ -93,7 +90,6 @@ namespace Bindr
         private void settingsbtnItemNo_Click(object sender, EventArgs e)
         {
             currentDrawMode = DrawMode.ItemNo;
-            currentMode = RegionMode.ItemNo;
             FlashTextBox(txtItemNoRect, 3, 2000);
             ClearDisplayedRegionsForMode(RegionMode.ItemNo);
         }
@@ -101,7 +97,6 @@ namespace Bindr
         private void settingsbtnSetJobPO_Click(object sender, EventArgs e)
         {
             currentDrawMode = DrawMode.JobPo;
-            currentMode = RegionMode.JobPo;
             FlashTextBox(txtJobPoRect, 3, 2000);
             ClearDisplayedRegionsForMode(RegionMode.JobPo);
         }
@@ -168,7 +163,6 @@ namespace Bindr
 
 
                 currentDrawMode = DrawMode.None;
-                currentMode = RegionMode.None;
                 pdfPreviewBox.Invalidate(); // Refresh box
             }
             ShowSavedRegions();

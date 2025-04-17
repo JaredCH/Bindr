@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bindr.Processors; // Added for PoProcessor
+using Bindr.Tab3;
 using ClosedXML.Excel;
 
 //TODO
@@ -36,13 +37,18 @@ namespace Bindr
         private LoadingAnimation loadingAnimation; // Add animation control
         private ContextMenuStrip loadSOContextMenu; // Context menu for Load SO button
         private ContextMenuStrip loadBOMContextMenu; // Context menu for Load BOM button
+        private DataTable tab3SummaryTable = null;
+        private string tab3DataHash = null;
+        private bool isSummaryView = false;
+        private Tab3Logic tab3Logic;
+
 
 
 
         public Main()
         {
             InitializeComponent();
-
+            tab3Logic = new Tab3Logic(this, tab3DGV);
             // Add Paint event handlers for down arrows
             btntab1LoadSO.Paint += (s, e) =>
             {
@@ -117,12 +123,6 @@ namespace Bindr
             tab2DGV.FilterStringChanged += Tab2DGV_FilterStringChanged;
             this.tab2DGV.CellMouseDown += tab2DGV_CellMouseDown;
             this.tab2DGV.SizeChanged += (s, e) => UpdateLoadingAnimationPosition(); // Adjust position on resize
-            tab3DGV.CellMouseDown += tab3DGV_CellMouseDown;
-
-
-
-
-
             this.Refresh();
         }
 
@@ -133,6 +133,17 @@ namespace Bindr
                 loadingAnimation.Location = new System.Drawing.Point(
                     (tab1DGV.Width - loadingAnimation.Width) / 2,
                     (tab1DGV.Height - loadingAnimation.Height) / 2
+                );
+            }
+        }
+
+        public void UpdateLoadingAnimationPositionForTab3()
+        {
+            if (loadingAnimation != null && tab3DGV != null)
+            {
+                loadingAnimation.Location = new System.Drawing.Point(
+                    (tab3DGV.Width - loadingAnimation.Width) / 2,
+                    (tab3DGV.Height - loadingAnimation.Height) / 2
                 );
             }
         }
@@ -156,6 +167,7 @@ namespace Bindr
             base.OnFormClosing(e);
             pdfViewerManager?.Dispose();
         }
+
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -820,256 +832,46 @@ namespace Bindr
 
         private void btntab3LoadReport_Click(object sender, EventArgs e)
         {
-            // Open File Dialog to pick an Excel file
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Filter = "Excel Files (*.xlsx)|*.xlsx";
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    string filePath = openFileDialog.FileName;
-                    LoadExcelFileAndDisplay(filePath);
-                }
-            }
+            tab3Logic.LoadExcelFile();
+
         }
 
-        private void LoadExcelFileAndDisplay(string filePath)
+        public PdfiumViewer.PdfViewer GetTab4PdfViewer()
         {
-            try
+            // Return the PdfViewer control from the 4th tab (index 3)
+            // Adjust the index or control name based on your setup
+            if (MainTab.TabPages.Count > 3)
             {
-                // Read the Excel file
-                var workbook = new XLWorkbook(filePath);
-                var worksheet = workbook.Worksheet(1); // Select the first worksheet
-
-                // Create a DataTable to hold the data
-                tab3dataTable = new DataTable();
-
-                // Loop through the rows and columns to extract data
-                bool firstRow = true; // To track the header row
-                foreach (var row in worksheet.RowsUsed())
-                {
-                    if (firstRow)
-                    {
-                        // Add columns to DataTable based on the header row
-                        foreach (var cell in row.Cells())
-                        {
-                            tab3dataTable.Columns.Add(cell.Value.ToString()); // Add column based on the header
-                        }
-                        firstRow = false;
-                        continue; // Skip the header row for data
-                    }
-
-                    // Add data rows to the DataTable
-                    var newRow = tab3dataTable.NewRow();
-                    int columnIndex = 0;
-                    foreach (var cell in row.Cells())
-                    {
-                        newRow[columnIndex] = cell.Value.ToString(); // Add the cell value to the row
-                        columnIndex++;
-                    }
-
-                    tab3dataTable.Rows.Add(newRow); // Add the row to the DataTable
-                }
-
-                // Bind the DataTable to the DataGridView
-                tab3DGV.DataSource = tab3dataTable; // Set the DataTable as the DataSource for the grid
+                var tab4 = MainTab.TabPages[3]; // 4th tab
+                return tab4.Controls.OfType<PdfiumViewer.PdfViewer>().FirstOrDefault();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error loading Excel file: {ex.Message}");
-            }
-            foreach (DataColumn col in tab3dataTable.Columns)
-            {
-                Debug.WriteLine($"Column: '{col.ColumnName}'");
-            }
-            tab3DataTableOriginal = tab3dataTable;
+            return null;
         }
 
-        private void openDetailToolStripMenuItem_Click(object sender, EventArgs e)
+        public void SwitchToTab4()
         {
-            if (tab3DGV.SelectedRows.Count == 0) return;
-
-            var selectedRow = tab3DGV.SelectedRows[0];
-
-            // Extract values from the appropriate columns
-            string po_wo = selectedRow.Cells["PO_WO#"].Value?.ToString() ?? "";
-            string tag = selectedRow.Cells["Description/Supt Tag"].Value?.ToString() ?? "";
-
-            if (string.IsNullOrWhiteSpace(po_wo) || string.IsNullOrWhiteSpace(tag))
+            // Switch to the 4th tab (index 3)
+            if (MainTab.TabPages.Count > 3)
             {
-                MessageBox.Show("Missing required data.");
-                return;
-            }
-
-            string[] parts = po_wo.Split('_');
-            if (parts.Length != 2)
-            {
-                MessageBox.Show("Invalid PO_WO# format. Expected format: JOB_PO.");
-                return;
-            }
-
-            string job = parts[0];
-            string po = parts[1];
-
-            // Pad job to 5 characters
-            string jobLong = job.PadLeft(5, '0');
-
-            // Add .pdf to the tag
-            string tagFile = $"{tag}.pdf";
-
-            // Construct the path
-            string filePath = $@"Z:\Jobs\PS Job {jobLong}\{job}-{po}\{tagFile}";
-
-            try
-            {
-                if (File.Exists(filePath))
-                {
-                    Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
-                }
-                else
-                {
-                    MessageBox.Show($"File not found:\n{filePath}");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error opening file:\n{ex.Message}");
+                MainTab.SelectedIndex = 3;
             }
         }
 
 
-        private void tab3DGV_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                tab3DGV.ClearSelection();
-                tab3DGV.Rows[e.RowIndex].Selected = true;
-                tab3DGV.CurrentCell = tab3DGV.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            }
-        }
 
         private void btntab3summarize_Click(object sender, EventArgs e)
-        {
-
-            if (tab3dataTable == null)
-            {
-                MessageBox.Show("Load data first.");
-                return;
-            }
-
-            // Dictionary to store counts by [Job][Status]
-            var summaryDict = new Dictionary<string, Dictionary<string, int>>();
-
-            foreach (DataRow row in tab3dataTable.Rows)
-            {
-                string po_wo = row["PO_WO#"]?.ToString() ?? "";
-                string status = row["WO Status"]?.ToString() ?? "";
-
-                if (string.IsNullOrWhiteSpace(po_wo) || string.IsNullOrWhiteSpace(status)) continue;
-
-                string job = po_wo.Split('_')[0];
-
-                if (!summaryDict.ContainsKey(job))
-                    summaryDict[job] = new Dictionary<string, int>();
-
-                if (!summaryDict[job].ContainsKey(status))
-                    summaryDict[job][status] = 0;
-
-                summaryDict[job][status]++;
-            }
-
-            // Get all unique statuses for column headers
-            var allStatuses = summaryDict
-                .SelectMany(kvp => kvp.Value.Keys)
-                .Distinct()
-                .OrderBy(s => s)
-                .ToList();
-
-            // Create a new DataTable for the summary view
-            DataTable summaryTable = new DataTable();
-            summaryTable.Columns.Add("Job");
-
-            foreach (string status in allStatuses)
-                summaryTable.Columns.Add(status);
-
-            // Fill the table
-            foreach (var jobEntry in summaryDict)
-            {
-                DataRow newRow = summaryTable.NewRow();
-                newRow["Job"] = jobEntry.Key;
-
-                foreach (string status in allStatuses)
-                {
-                    int count = jobEntry.Value.ContainsKey(status) ? jobEntry.Value[status] : 0;
-                    newRow[status] = count;
-                }
-
-                summaryTable.Rows.Add(newRow);
-            }
-
-            // Display it in the grid
-            tab3DGV.DataSource = summaryTable;
-        }
-
+        {tab3Logic.GenerateSummary();}
         private void btntab3reset_Click(object sender, EventArgs e)
-        {
-            tab3DGV.DataSource = tab3DataTableOriginal;
-        }
-
+        {tab3Logic.ResetView();}
+        private void btntab3FGSort_Click(object sender, EventArgs e)
+        {tab3Logic.GenerateFGSummary();}
         private void tab3DGV_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {
-            // Ignore header row/column clicks
-            if (e.RowIndex < 0 || e.ColumnIndex < 1)
-                return;
+        {/*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleCellDoubleClick(sender, e);}}
+        private void openDetailToolStripMenuItem_Click(object sender, EventArgs e)
+        { /*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenDetailClick(sender, e);}}
+        private void openWOToolStripMenuItem_Click(object sender, EventArgs e)
+        {/*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenWOClick(sender, e);}}
 
-            try
-            {
-                // Get job and status
-                string job = tab3DGV.Rows[e.RowIndex].Cells[0].Value?.ToString(); // Job column is always first
-                string status = tab3DGV.Columns[e.ColumnIndex].HeaderText;
-
-                // Check for valid column names
-                string poColumn = tab3DataTableOriginal.Columns
-                    .Cast<DataColumn>()
-                    .FirstOrDefault(c => c.ColumnName.Trim() == "PO_WO#")?.ColumnName;
-
-                string statusColumn = tab3DataTableOriginal.Columns
-                    .Cast<DataColumn>()
-                    .FirstOrDefault(c => c.ColumnName.Trim() == "WO Status")?.ColumnName;
-
-                if (poColumn == null || statusColumn == null)
-                {
-                    MessageBox.Show("Expected columns not found.");
-                    return;
-                }
-
-                // Filter rows
-                var filtered = tab3DataTableOriginal.AsEnumerable()
-                    .Where(row =>
-                    {
-                        string po_wo = row[poColumn]?.ToString() ?? "";
-                        string rowStatus = row[statusColumn]?.ToString() ?? "";
-                        string rowJob = po_wo.Split('_')[0];
-
-                        return rowJob == job && rowStatus == status;
-                    });
-
-                if (!filtered.Any())
-                {
-                    MessageBox.Show("No matching data found.");
-                    return;
-                }
-
-                // Create filtered table
-                DataTable filteredTable = filtered.CopyToDataTable();
-
-                // Display filtered results
-                tab3DGV.DataSource = filteredTable;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
-        }
 
     }
 }
