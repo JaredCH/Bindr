@@ -1,36 +1,44 @@
-🧱 SQL Side (Database Design & Processing)
-Event Tracking Table
-You’ll create a simple table that logs every time something important happens — like when a support is added or changes status.
-Each entry includes:
+## 📊 Historical Metrics Architecture – SQL + WinForms
 
-The support ID
+This system is designed to track and visualize changes over time in a high-volume job environment, using SQL Server for storage and a WinForms application for reporting.
 
-The job it belongs to
+---
 
-The status it changed from and to
+### 🗃️ SQL Implementation Overview
 
-The type of event
+- **Event Tracking Table**  
+  A dedicated `SupportEvents` table logs every meaningful change (e.g., new row added, status change, quantity/revenue changes) with timestamps.
 
-A timestamp
+- **Efficient Indexing**  
+  Time-based and job-based indexes allow fast querying, even with tens of thousands of rows per job.
 
-This Doesn’t Replace Your Main Data
-Your main tables still hold the current state. This event table just tracks changes over time. Think of it as an activity log.
+- **Optional: Daily Summary Table**  
+  To optimize reporting performance, nightly jobs can summarize key metrics (e.g., total supports, total revenue per status/job/date).
 
-Indexes to Keep It Fast
-You’d add indexes to this table on columns like JobId and Timestamp so that when you query recent history or a specific job, it’s quick.
+- **Scalability Strategy**  
+  Event tables stay lean because they record only deltas, not snapshots. Historical trends are derived from events, reducing table bloat.
 
-Optional Aggregation
-If querying historical changes becomes too slow (because the event table gets huge), you can run a background process each night to summarize the day’s data into a separate summary table. That table is much smaller and easier to query quickly.
+---
 
-🖥️ WinForms Side (How Your App Gets the Data)
-Query for Specific Timeframes
-When the user wants to see trends (like changes per day or supports added per week), your app sends a query asking the SQL Server to group the historical data by day, week, or month.
+### 💻 WinForms Integration
 
-Pull Only What You Need
-You’re not loading the entire event log. You just pull data for the time range and jobs you care about (e.g., the last 30 days for Job 1234).
+- **Data Queries**  
+  Your app queries for specific ranges (e.g., last 7, 30, 90 days), grouping by date/week/month, job, or status.
 
-Display It in Charts or Tables
-Your app loads that grouped data and shows it in line graphs, bar charts, or tables — whatever you prefer.
+- **Graphing**  
+  Load queried data into chart controls to show trends like:
+  - Running total of supports per job
+  - Revenue completed per week/month
+  - Status transitions over time
 
-Performance is Fine
-For your scale (10–15 jobs, 100–1000 changes/day), SQL Server will handle this easily if you index correctly and don’t try to pull the entire table at once. For most day-to-day use, it’ll be fast enough to feel smooth in your app.
+- **Performance**  
+  With smart indexing and scoped queries, even high-volume jobs return results quickly and reliably in WinForms.
+
+---
+
+### ✅ Why This Works
+
+- Supports detailed, time-based reporting without bloating the core tables.
+- Enables easy visualization of operational trends.
+- Scales with your business — from hundreds to millions of changes.
+- Plays well with existing SQL infrastructure and WinForms tooling.
