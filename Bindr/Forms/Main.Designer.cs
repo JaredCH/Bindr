@@ -70,6 +70,15 @@ namespace Bindr
             this.tab2RightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSupportDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.MainTab.SuspendLayout();
             this.tabpdfmerge.SuspendLayout();
@@ -173,6 +182,15 @@ namespace Bindr
             this.MainTab.Controls.Add(this.tabreport);
             this.MainTab.Controls.Add(this.tabJDE);
             this.MainTab.Controls.Add(this.tabView);
+            this.MainTab.Controls.Add(this.tabPage1);
+            this.MainTab.Controls.Add(this.tabPage2);
+            this.MainTab.Controls.Add(this.tabPage3);
+            this.MainTab.Controls.Add(this.tabPage4);
+            this.MainTab.Controls.Add(this.tabPage5);
+            this.MainTab.Controls.Add(this.tabPage6);
+            this.MainTab.Controls.Add(this.tabPage7);
+            this.MainTab.Controls.Add(this.tabPage8);
+            this.MainTab.Controls.Add(this.tabPage9);
             this.MainTab.Location = new System.Drawing.Point(0, 23);
             this.MainTab.Name = "MainTab";
             this.MainTab.SelectedIndex = 0;
@@ -464,6 +482,7 @@ namespace Bindr
             // 
             this.advancedDataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.advancedDataGridView1.BackgroundColor = System.Drawing.SystemColors.ActiveCaption;
             this.advancedDataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.advancedDataGridView1.FilterAndSortEnabled = true;
             this.advancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
@@ -483,6 +502,7 @@ namespace Bindr
             this.tab4PDFView.Location = new System.Drawing.Point(7, 4);
             this.tab4PDFView.Name = "tab4PDFView";
             this.tab4PDFView.ShowBookmarks = false;
+            this.tab4PDFView.ShowToolbar = false;
             this.tab4PDFView.Size = new System.Drawing.Size(713, 503);
             this.tab4PDFView.TabIndex = 0;
             // 
@@ -507,6 +527,87 @@ namespace Bindr
             this.loadSupportDetailToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.loadSupportDetailToolStripMenuItem.Text = "Load Support Detail";
             this.loadSupportDetailToolStripMenuItem.Click += new System.EventHandler(this.loadSupportDetailToolStripMenuItem_Click);
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage1.TabIndex = 4;
+            this.tabPage1.Text = "Plate Cut log";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage2.TabIndex = 5;
+            this.tabPage2.Text = "Forge";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage3.TabIndex = 6;
+            this.tabPage3.Text = "Gates Pad Log";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage4.TabIndex = 7;
+            this.tabPage4.Text = "Linear Log";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // tabPage5
+            // 
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage5.TabIndex = 8;
+            this.tabPage5.Text = "Shipping / PL\'s";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage6.TabIndex = 9;
+            this.tabPage6.Text = "Digital Cubby";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage7.TabIndex = 10;
+            this.tabPage7.Text = "Modern Reports";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage8.TabIndex = 11;
+            this.tabPage8.Text = "Release Evaluation MRP";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // tabPage9
+            // 
+            this.tabPage9.Location = new System.Drawing.Point(4, 22);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Size = new System.Drawing.Size(1049, 508);
+            this.tabPage9.TabIndex = 12;
+            this.tabPage9.Text = "Metal Trace";
+            this.tabPage9.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -576,5 +677,14 @@ namespace Bindr
         private TabPage tabView;
         private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
         private PdfiumViewer.PdfViewer tab4PDFView;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private TabPage tabPage3;
+        private TabPage tabPage4;
+        private TabPage tabPage5;
+        private TabPage tabPage6;
+        private TabPage tabPage7;
+        private TabPage tabPage8;
+        private TabPage tabPage9;
     }
 }

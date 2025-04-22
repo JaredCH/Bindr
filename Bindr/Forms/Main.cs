@@ -11,6 +11,7 @@ using Bindr.Processors; // Added for PoProcessor
 using Bindr.Tab3;
 using ClosedXML.Excel;
 
+
 //TODO
 //(look for open email window, list out attatchments, determine which one has the info we need based on name, extract a date from that pdf
 //digital cubby system to auto sort, then auto print, so i dont have to sort anymore.
@@ -41,7 +42,6 @@ namespace Bindr
         private string tab3DataHash = null;
         private bool isSummaryView = false;
         private Tab3Logic tab3Logic;
-
 
 
 
@@ -359,7 +359,6 @@ namespace Bindr
         // TAB 2
         private void tab2btnLoadNestPlans_Click(object sender, EventArgs e)
         {
-            tab2DGV.Rows.Clear();
             tab2StatusLabel.Text = "Status: Select File(s)";
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -871,7 +870,6 @@ namespace Bindr
         { /*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenDetailClick(sender, e);}}
         private void openWOToolStripMenuItem_Click(object sender, EventArgs e)
         {/*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenWOClick(sender, e);}}
-
 
     }
 }
