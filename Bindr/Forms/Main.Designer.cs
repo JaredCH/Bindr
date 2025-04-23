@@ -43,19 +43,19 @@ namespace Bindr
             this.PropMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.MainTab = new System.Windows.Forms.TabControl();
-            this.tabpdfmerge = new System.Windows.Forms.TabPage();
+            this.tabPDFMerge = new System.Windows.Forms.TabPage();
             this.btntab1LoadBOM = new System.Windows.Forms.Button();
             this.btntab1LoadSO = new System.Windows.Forms.Button();
             this.btntab1ProcessBOM = new System.Windows.Forms.Button();
             this.tab1DGV = new Zuby.ADGV.AdvancedDataGridView();
-            this.tabreport = new System.Windows.Forms.TabPage();
+            this.tabNestPlanProcessor = new System.Windows.Forms.TabPage();
             this.tab2PDFView = new PdfiumViewer.PdfViewer();
             this.tab2StatusLabel = new System.Windows.Forms.Label();
             this.tab2DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tab2btnLoadNestPlans = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.tabJDE = new System.Windows.Forms.TabPage();
+            this.tabWOReport = new System.Windows.Forms.TabPage();
             this.btntab3FGSort = new System.Windows.Forms.Button();
             this.btntab3reset = new System.Windows.Forms.Button();
             this.btntab3summarize = new System.Windows.Forms.Button();
@@ -67,25 +67,23 @@ namespace Bindr
             this.tabView = new System.Windows.Forms.TabPage();
             this.advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             this.tab4PDFView = new PdfiumViewer.PdfViewer();
+            this.tabCutLog = new System.Windows.Forms.TabPage();
+            this.tabGatesLog = new System.Windows.Forms.TabPage();
+            this.tabShipping = new System.Windows.Forms.TabPage();
+            this.tabDigitalCubby = new System.Windows.Forms.TabPage();
+            this.tabModernReports = new System.Windows.Forms.TabPage();
+            this.tabReleaseEval = new System.Windows.Forms.TabPage();
+            this.tabMetalTrace = new System.Windows.Forms.TabPage();
             this.tab2RightClick = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.loadPDFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadSupportDetailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.tabPage9 = new System.Windows.Forms.TabPage();
             this.menuStrip1.SuspendLayout();
             this.MainTab.SuspendLayout();
-            this.tabpdfmerge.SuspendLayout();
+            this.tabPDFMerge.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab1DGV)).BeginInit();
-            this.tabreport.SuspendLayout();
+            this.tabNestPlanProcessor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).BeginInit();
-            this.tabJDE.SuspendLayout();
+            this.tabWOReport.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab3DGV)).BeginInit();
             this.tab3contextMenuStrip1.SuspendLayout();
             this.tabView.SuspendLayout();
@@ -178,42 +176,40 @@ namespace Bindr
             this.MainTab.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.MainTab.Controls.Add(this.tabpdfmerge);
-            this.MainTab.Controls.Add(this.tabreport);
-            this.MainTab.Controls.Add(this.tabJDE);
+            this.MainTab.Controls.Add(this.tabPDFMerge);
+            this.MainTab.Controls.Add(this.tabNestPlanProcessor);
+            this.MainTab.Controls.Add(this.tabWOReport);
             this.MainTab.Controls.Add(this.tabView);
-            this.MainTab.Controls.Add(this.tabPage1);
-            this.MainTab.Controls.Add(this.tabPage2);
-            this.MainTab.Controls.Add(this.tabPage3);
-            this.MainTab.Controls.Add(this.tabPage4);
-            this.MainTab.Controls.Add(this.tabPage5);
-            this.MainTab.Controls.Add(this.tabPage6);
-            this.MainTab.Controls.Add(this.tabPage7);
-            this.MainTab.Controls.Add(this.tabPage8);
-            this.MainTab.Controls.Add(this.tabPage9);
+            this.MainTab.Controls.Add(this.tabCutLog);
+            this.MainTab.Controls.Add(this.tabGatesLog);
+            this.MainTab.Controls.Add(this.tabShipping);
+            this.MainTab.Controls.Add(this.tabDigitalCubby);
+            this.MainTab.Controls.Add(this.tabModernReports);
+            this.MainTab.Controls.Add(this.tabReleaseEval);
+            this.MainTab.Controls.Add(this.tabMetalTrace);
             this.MainTab.Location = new System.Drawing.Point(0, 23);
             this.MainTab.Name = "MainTab";
             this.MainTab.SelectedIndex = 0;
             this.MainTab.Size = new System.Drawing.Size(1057, 534);
             this.MainTab.TabIndex = 6;
             // 
-            // tabpdfmerge
+            // tabPDFMerge
             // 
-            this.tabpdfmerge.BackColor = System.Drawing.Color.Transparent;
-            this.tabpdfmerge.Controls.Add(this.btntab1LoadBOM);
-            this.tabpdfmerge.Controls.Add(this.btntab1LoadSO);
-            this.tabpdfmerge.Controls.Add(this.btntab1ProcessBOM);
-            this.tabpdfmerge.Controls.Add(this.tab1StatusLabel);
-            this.tabpdfmerge.Controls.Add(this.tab1DGV);
-            this.tabpdfmerge.Controls.Add(this.btntab1LoadPdf);
-            this.tabpdfmerge.Controls.Add(this.btntab1Process);
-            this.tabpdfmerge.Controls.Add(this.btntab1SelectFolder);
-            this.tabpdfmerge.Location = new System.Drawing.Point(4, 22);
-            this.tabpdfmerge.Name = "tabpdfmerge";
-            this.tabpdfmerge.Padding = new System.Windows.Forms.Padding(3);
-            this.tabpdfmerge.Size = new System.Drawing.Size(1049, 508);
-            this.tabpdfmerge.TabIndex = 0;
-            this.tabpdfmerge.Text = "PDF Merge";
+            this.tabPDFMerge.BackColor = System.Drawing.Color.Transparent;
+            this.tabPDFMerge.Controls.Add(this.btntab1LoadBOM);
+            this.tabPDFMerge.Controls.Add(this.btntab1LoadSO);
+            this.tabPDFMerge.Controls.Add(this.btntab1ProcessBOM);
+            this.tabPDFMerge.Controls.Add(this.tab1StatusLabel);
+            this.tabPDFMerge.Controls.Add(this.tab1DGV);
+            this.tabPDFMerge.Controls.Add(this.btntab1LoadPdf);
+            this.tabPDFMerge.Controls.Add(this.btntab1Process);
+            this.tabPDFMerge.Controls.Add(this.btntab1SelectFolder);
+            this.tabPDFMerge.Location = new System.Drawing.Point(4, 22);
+            this.tabPDFMerge.Name = "tabPDFMerge";
+            this.tabPDFMerge.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPDFMerge.Size = new System.Drawing.Size(1049, 508);
+            this.tabPDFMerge.TabIndex = 0;
+            this.tabPDFMerge.Text = "PDF Merge";
             // 
             // btntab1LoadBOM
             // 
@@ -266,21 +262,21 @@ namespace Bindr
             this.tab1DGV.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             this.tab1DGV.TabIndex = 4;
             // 
-            // tabreport
+            // tabNestPlanProcessor
             // 
-            this.tabreport.Controls.Add(this.tab2PDFView);
-            this.tabreport.Controls.Add(this.tab2StatusLabel);
-            this.tabreport.Controls.Add(this.tab2DGV);
-            this.tabreport.Controls.Add(this.tab2btnLoadNestPlans);
-            this.tabreport.Controls.Add(this.button2);
-            this.tabreport.Controls.Add(this.button3);
-            this.tabreport.Location = new System.Drawing.Point(4, 22);
-            this.tabreport.Name = "tabreport";
-            this.tabreport.Padding = new System.Windows.Forms.Padding(3);
-            this.tabreport.Size = new System.Drawing.Size(1049, 508);
-            this.tabreport.TabIndex = 1;
-            this.tabreport.Text = "Report";
-            this.tabreport.UseVisualStyleBackColor = true;
+            this.tabNestPlanProcessor.Controls.Add(this.tab2PDFView);
+            this.tabNestPlanProcessor.Controls.Add(this.tab2StatusLabel);
+            this.tabNestPlanProcessor.Controls.Add(this.tab2DGV);
+            this.tabNestPlanProcessor.Controls.Add(this.tab2btnLoadNestPlans);
+            this.tabNestPlanProcessor.Controls.Add(this.button2);
+            this.tabNestPlanProcessor.Controls.Add(this.button3);
+            this.tabNestPlanProcessor.Location = new System.Drawing.Point(4, 22);
+            this.tabNestPlanProcessor.Name = "tabNestPlanProcessor";
+            this.tabNestPlanProcessor.Padding = new System.Windows.Forms.Padding(3);
+            this.tabNestPlanProcessor.Size = new System.Drawing.Size(1049, 508);
+            this.tabNestPlanProcessor.TabIndex = 1;
+            this.tabNestPlanProcessor.Text = "NestPlan Processor";
+            this.tabNestPlanProcessor.UseVisualStyleBackColor = true;
             // 
             // tab2PDFView
             // 
@@ -366,19 +362,19 @@ namespace Bindr
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // tabJDE
+            // tabWOReport
             // 
-            this.tabJDE.Controls.Add(this.btntab3FGSort);
-            this.tabJDE.Controls.Add(this.btntab3reset);
-            this.tabJDE.Controls.Add(this.btntab3summarize);
-            this.tabJDE.Controls.Add(this.btntab3LoadReport);
-            this.tabJDE.Controls.Add(this.tab3DGV);
-            this.tabJDE.Location = new System.Drawing.Point(4, 22);
-            this.tabJDE.Name = "tabJDE";
-            this.tabJDE.Size = new System.Drawing.Size(1049, 508);
-            this.tabJDE.TabIndex = 2;
-            this.tabJDE.Text = "JDE";
-            this.tabJDE.UseVisualStyleBackColor = true;
+            this.tabWOReport.Controls.Add(this.btntab3FGSort);
+            this.tabWOReport.Controls.Add(this.btntab3reset);
+            this.tabWOReport.Controls.Add(this.btntab3summarize);
+            this.tabWOReport.Controls.Add(this.btntab3LoadReport);
+            this.tabWOReport.Controls.Add(this.tab3DGV);
+            this.tabWOReport.Location = new System.Drawing.Point(4, 22);
+            this.tabWOReport.Name = "tabWOReport";
+            this.tabWOReport.Size = new System.Drawing.Size(1049, 508);
+            this.tabWOReport.TabIndex = 2;
+            this.tabWOReport.Text = "WO Report";
+            this.tabWOReport.UseVisualStyleBackColor = true;
             // 
             // btntab3FGSort
             // 
@@ -506,6 +502,69 @@ namespace Bindr
             this.tab4PDFView.Size = new System.Drawing.Size(713, 503);
             this.tab4PDFView.TabIndex = 0;
             // 
+            // tabCutLog
+            // 
+            this.tabCutLog.Location = new System.Drawing.Point(4, 22);
+            this.tabCutLog.Name = "tabCutLog";
+            this.tabCutLog.Size = new System.Drawing.Size(1049, 508);
+            this.tabCutLog.TabIndex = 4;
+            this.tabCutLog.Text = "Cut Log (Plate/Pipe)";
+            this.tabCutLog.UseVisualStyleBackColor = true;
+            // 
+            // tabGatesLog
+            // 
+            this.tabGatesLog.Location = new System.Drawing.Point(4, 22);
+            this.tabGatesLog.Name = "tabGatesLog";
+            this.tabGatesLog.Size = new System.Drawing.Size(1049, 508);
+            this.tabGatesLog.TabIndex = 5;
+            this.tabGatesLog.Text = "Gates Pad Log";
+            this.tabGatesLog.UseVisualStyleBackColor = true;
+            // 
+            // tabShipping
+            // 
+            this.tabShipping.Location = new System.Drawing.Point(4, 22);
+            this.tabShipping.Name = "tabShipping";
+            this.tabShipping.Size = new System.Drawing.Size(1049, 508);
+            this.tabShipping.TabIndex = 6;
+            this.tabShipping.Text = "Shipping / PL\'s";
+            this.tabShipping.UseVisualStyleBackColor = true;
+            // 
+            // tabDigitalCubby
+            // 
+            this.tabDigitalCubby.Location = new System.Drawing.Point(4, 22);
+            this.tabDigitalCubby.Name = "tabDigitalCubby";
+            this.tabDigitalCubby.Size = new System.Drawing.Size(1049, 508);
+            this.tabDigitalCubby.TabIndex = 7;
+            this.tabDigitalCubby.Text = "Digital Cubby";
+            this.tabDigitalCubby.UseVisualStyleBackColor = true;
+            // 
+            // tabModernReports
+            // 
+            this.tabModernReports.Location = new System.Drawing.Point(4, 22);
+            this.tabModernReports.Name = "tabModernReports";
+            this.tabModernReports.Size = new System.Drawing.Size(1049, 508);
+            this.tabModernReports.TabIndex = 8;
+            this.tabModernReports.Text = "Modern Reports";
+            this.tabModernReports.UseVisualStyleBackColor = true;
+            // 
+            // tabReleaseEval
+            // 
+            this.tabReleaseEval.Location = new System.Drawing.Point(4, 22);
+            this.tabReleaseEval.Name = "tabReleaseEval";
+            this.tabReleaseEval.Size = new System.Drawing.Size(1049, 508);
+            this.tabReleaseEval.TabIndex = 9;
+            this.tabReleaseEval.Text = "Release Eval";
+            this.tabReleaseEval.UseVisualStyleBackColor = true;
+            // 
+            // tabMetalTrace
+            // 
+            this.tabMetalTrace.Location = new System.Drawing.Point(4, 22);
+            this.tabMetalTrace.Name = "tabMetalTrace";
+            this.tabMetalTrace.Size = new System.Drawing.Size(1049, 508);
+            this.tabMetalTrace.TabIndex = 10;
+            this.tabMetalTrace.Text = "Metal Trace";
+            this.tabMetalTrace.UseVisualStyleBackColor = true;
+            // 
             // tab2RightClick
             // 
             this.tab2RightClick.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -528,87 +587,6 @@ namespace Bindr
             this.loadSupportDetailToolStripMenuItem.Text = "Load Support Detail";
             this.loadSupportDetailToolStripMenuItem.Click += new System.EventHandler(this.loadSupportDetailToolStripMenuItem_Click);
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage1.TabIndex = 4;
-            this.tabPage1.Text = "Plate Cut log";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage2.TabIndex = 5;
-            this.tabPage2.Text = "Forge";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage3.TabIndex = 6;
-            this.tabPage3.Text = "Gates Pad Log";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // tabPage4
-            // 
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage4.TabIndex = 7;
-            this.tabPage4.Text = "Linear Log";
-            this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // tabPage5
-            // 
-            this.tabPage5.Location = new System.Drawing.Point(4, 22);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage5.TabIndex = 8;
-            this.tabPage5.Text = "Shipping / PL\'s";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage6.TabIndex = 9;
-            this.tabPage6.Text = "Digital Cubby";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // tabPage7
-            // 
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage7.TabIndex = 10;
-            this.tabPage7.Text = "Modern Reports";
-            this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // tabPage8
-            // 
-            this.tabPage8.Location = new System.Drawing.Point(4, 22);
-            this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage8.TabIndex = 11;
-            this.tabPage8.Text = "Release Evaluation MRP";
-            this.tabPage8.UseVisualStyleBackColor = true;
-            // 
-            // tabPage9
-            // 
-            this.tabPage9.Location = new System.Drawing.Point(4, 22);
-            this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(1049, 508);
-            this.tabPage9.TabIndex = 12;
-            this.tabPage9.Text = "Metal Trace";
-            this.tabPage9.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -624,13 +602,13 @@ namespace Bindr
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.MainTab.ResumeLayout(false);
-            this.tabpdfmerge.ResumeLayout(false);
-            this.tabpdfmerge.PerformLayout();
+            this.tabPDFMerge.ResumeLayout(false);
+            this.tabPDFMerge.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab1DGV)).EndInit();
-            this.tabreport.ResumeLayout(false);
-            this.tabreport.PerformLayout();
+            this.tabNestPlanProcessor.ResumeLayout(false);
+            this.tabNestPlanProcessor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tab2DGV)).EndInit();
-            this.tabJDE.ResumeLayout(false);
+            this.tabWOReport.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.tab3DGV)).EndInit();
             this.tab3contextMenuStrip1.ResumeLayout(false);
             this.tabView.ResumeLayout(false);
@@ -645,8 +623,8 @@ namespace Bindr
         private MenuStrip menuStrip1;
         private ToolStripMenuItem PropMenuItem1;
         private ToolStripMenuItem toolStripMenuItem1;
-        private TabPage tabpdfmerge;
-        private TabPage tabreport;
+        private TabPage tabPDFMerge;
+        private TabPage tabNestPlanProcessor;
         private Zuby.ADGV.AdvancedDataGridView tab1DGV;
         private Button btntab1LoadPdf;
         private Button btntab1SelectFolder;
@@ -657,7 +635,7 @@ namespace Bindr
         private Button tab2btnLoadNestPlans;
         private Button button2;
         private Button button3;
-        private TabPage tabJDE;
+        private TabPage tabWOReport;
         private Label tab2StatusLabel;
         private ContextMenuStrip tab2RightClick;
         private ToolStripMenuItem loadPDFToolStripMenuItem;
@@ -677,14 +655,12 @@ namespace Bindr
         private TabPage tabView;
         private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
         private PdfiumViewer.PdfViewer tab4PDFView;
-        private TabPage tabPage1;
-        private TabPage tabPage2;
-        private TabPage tabPage3;
-        private TabPage tabPage4;
-        private TabPage tabPage5;
-        private TabPage tabPage6;
-        private TabPage tabPage7;
-        private TabPage tabPage8;
-        private TabPage tabPage9;
+        private TabPage tabCutLog;
+        private TabPage tabGatesLog;
+        private TabPage tabShipping;
+        private TabPage tabDigitalCubby;
+        private TabPage tabModernReports;
+        private TabPage tabReleaseEval;
+        private TabPage tabMetalTrace;
     }
 }

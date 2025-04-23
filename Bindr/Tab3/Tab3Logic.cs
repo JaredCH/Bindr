@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 using ClosedXML.Excel;
 using iText.Pdfua;
 using PdfiumViewer;
@@ -25,6 +26,7 @@ namespace Bindr.Tab3
         private ContextMenuStrip contextMenu;
         private PdfiumDocument currentPdfDocument;
         private Main mainForm;
+
 
 
 
@@ -55,7 +57,6 @@ namespace Bindr.Tab3
 
         public void LoadExcelFile()
         {
-
             // Open File Dialog to pick an Excel file
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
@@ -63,61 +64,92 @@ namespace Bindr.Tab3
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string filePath = openFileDialog.FileName;
-                    LoadExcelFileAndDisplay(filePath);
+
+                    // Show loading indicator
+                    mainForm.Cursor = Cursors.WaitCursor;
+
+                    // Use Task.Run to load file in background
+                    Task.Run(() => LoadExcelFileAsync(filePath))
+                        .ContinueWith(t => {
+                            // Return to UI thread
+                            mainForm.BeginInvoke(new Action(() => {
+                                mainForm.Cursor = Cursors.Default;
+                                if (t.Exception != null)
+                                    MessageBox.Show($"Error loading Excel file: {t.Exception.InnerException?.Message}");
+                            }));
+                        });
                 }
             }
         }
 
-        private void LoadExcelFileAndDisplay(string filePath)
+        private DataTable LoadExcelFileAsync(string filePath)
         {
             try
             {
-                // Read the Excel file
-                var workbook = new XLWorkbook(filePath);
-                var worksheet = workbook.Worksheet(1); // Select the first worksheet
+                DataTable newDataTable = new DataTable();
 
-                // Create a DataTable to hold the data
-                tab3dataTable = new DataTable();
-
-                // Loop through the rows and columns to extract data
-                bool firstRow = true; // To track the header row
-                foreach (var row in worksheet.RowsUsed())
+                using (var workbook = new XLWorkbook(filePath))
                 {
-                    if (firstRow)
+                    var worksheet = workbook.Worksheet(1);
+                    var range = worksheet.RangeUsed();
+
+                    // Get headers at once
+                    var headerRow = range.FirstRow();
+                    foreach (var cell in headerRow.Cells())
                     {
-                        // Add columns to DataTable based on the header row
-                        foreach (var cell in row.Cells())
+                        newDataTable.Columns.Add(cell.Value.ToString());
+                    }
+
+                    // Pre-calculate dimensions
+                    int rowCount = range.RowCount() - 1; // Exclude header
+                    int colCount = range.ColumnCount();
+
+                    // Process data rows in bulk
+                    object[,] data = new object[rowCount, colCount];
+
+                    int rowIndex = 0;
+                    foreach (var row in range.RowsUsed().Skip(1)) // Skip header
+                    {
+                        int colIndex = 0;
+                        foreach (var cell in row.CellsUsed())
                         {
-                            tab3dataTable.Columns.Add(cell.Value.ToString()); // Add column based on the header
+                            data[rowIndex, colIndex] = cell.Value;
+                            colIndex++;
                         }
-                        firstRow = false;
-                        continue; // Skip the header row for data
+                        rowIndex++;
                     }
 
-                    // Add data rows to the DataTable
-                    var newRow = tab3dataTable.NewRow();
-                    int columnIndex = 0;
-                    foreach (var cell in row.Cells())
+                    // Add all rows at once
+                    for (int i = 0; i < rowCount; i++)
                     {
-                        newRow[columnIndex] = cell.Value.ToString(); // Add the cell value to the row
-                        columnIndex++;
+                        DataRow newRow = newDataTable.NewRow();
+                        for (int j = 0; j < colCount; j++)
+                        {
+                            newRow[j] = data[i, j] ?? DBNull.Value;
+                        }
+                        newDataTable.Rows.Add(newRow);
                     }
-
-                    tab3dataTable.Rows.Add(newRow); // Add the row to the DataTable
                 }
 
-                // Bind the DataTable to the DataGridView
-                tab3DGV.DataSource = tab3dataTable; // Set the DataTable as the DataSource for the grid
+                // Update UI on the UI thread
+                mainForm.BeginInvoke(new Action(() => {
+                    tab3dataTable = newDataTable;
+                    tab3DGV.DataSource = tab3dataTable;
+                    tab3DataTableOriginal = tab3dataTable.Copy();
+
+                    // Debug column names
+                    foreach (DataColumn col in tab3dataTable.Columns)
+                    {
+                        Debug.WriteLine($"Column: '{col.ColumnName}'");
+                    }
+                }));
+
+                return newDataTable;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading Excel file: {ex.Message}");
+                throw;
             }
-            foreach (DataColumn col in tab3dataTable.Columns)
-            {
-                Debug.WriteLine($"Column: '{col.ColumnName}'");
-            }
-            tab3DataTableOriginal = tab3dataTable.Copy();
         }
 
 
