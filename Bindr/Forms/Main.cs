@@ -364,7 +364,6 @@ namespace Bindr
             {
                 openFileDialog.Multiselect = true;
                 openFileDialog.Filter = "Text Files (*.txt)|*.txt";
-
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     tab2DataTable = new DataTable();
@@ -372,7 +371,11 @@ namespace Bindr
                     tab2DataTable.Columns.Add("PlanId");
                     tab2DataTable.Columns.Add("PartInfo");
                     tab2DataTable.Columns.Add("Qty");
+                    tab2DataTable.Columns.Add("Material");
+                    tab2DataTable.Columns.Add("Thickness");
+                    tab2DataTable.Columns.Add("PlannedTime");
                     tab2DataTable.Columns.Add("Date Created");
+
                     var fileList = openFileDialog.FileNames;
                     var allRows = new List<List<string>>();
                     tab2StatusLabel.Text = "Status: Processing NestPlans";
@@ -384,15 +387,12 @@ namespace Bindr
                             allRows.AddRange(rows);
                         }
                     });
-
                     foreach (var row in allRows)
                     {
                         tab2DataTable.Rows.Add(row.ToArray());
                     }
-
                     tab2BindingSource.DataSource = tab2DataTable;
                     tab2DGV.DataSource = tab2BindingSource;
-
                     tab2DGV.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
                     tab2DGV.RowHeadersWidth = 55;
                     tab2StatusLabel.Text = "Status: NestPlan Processing Completed";

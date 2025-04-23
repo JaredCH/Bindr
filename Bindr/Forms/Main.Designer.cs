@@ -54,7 +54,7 @@ namespace Bindr
             this.tab2DGV = new Zuby.ADGV.AdvancedDataGridView();
             this.tab2btnLoadNestPlans = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.tab2btnShowRollUp = new System.Windows.Forms.Button();
             this.tabWOReport = new System.Windows.Forms.TabPage();
             this.btntab3FGSort = new System.Windows.Forms.Button();
             this.btntab3reset = new System.Windows.Forms.Button();
@@ -285,7 +285,7 @@ namespace Bindr
             this.tabNestPlanProcessor.Controls.Add(this.tab2DGV);
             this.tabNestPlanProcessor.Controls.Add(this.tab2btnLoadNestPlans);
             this.tabNestPlanProcessor.Controls.Add(this.button2);
-            this.tabNestPlanProcessor.Controls.Add(this.button3);
+            this.tabNestPlanProcessor.Controls.Add(this.tab2btnShowRollUp);
             this.tabNestPlanProcessor.Location = new System.Drawing.Point(4, 22);
             this.tabNestPlanProcessor.Name = "tabNestPlanProcessor";
             this.tabNestPlanProcessor.Padding = new System.Windows.Forms.Padding(3);
@@ -362,21 +362,21 @@ namespace Bindr
             this.button2.Text = "empty";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // tab2btnShowRollUp
             // 
-            this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.BackColor = System.Drawing.Color.Transparent;
-            this.button3.Enabled = false;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.White;
-            this.button3.FlatAppearance.BorderSize = 10;
-            this.button3.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(944, 68);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(99, 35);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "empty";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.tab2btnShowRollUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tab2btnShowRollUp.BackColor = System.Drawing.Color.Transparent;
+            this.tab2btnShowRollUp.Enabled = false;
+            this.tab2btnShowRollUp.FlatAppearance.BorderColor = System.Drawing.Color.White;
+            this.tab2btnShowRollUp.FlatAppearance.BorderSize = 10;
+            this.tab2btnShowRollUp.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tab2btnShowRollUp.Location = new System.Drawing.Point(944, 68);
+            this.tab2btnShowRollUp.Name = "tab2btnShowRollUp";
+            this.tab2btnShowRollUp.Size = new System.Drawing.Size(99, 35);
+            this.tab2btnShowRollUp.TabIndex = 6;
+            this.tab2btnShowRollUp.Text = "empty";
+            this.tab2btnShowRollUp.UseVisualStyleBackColor = false;
+            this.tab2btnShowRollUp.Click += new System.EventHandler(this.button3_Click);
             // 
             // tabWOReport
             // 
@@ -814,7 +814,7 @@ namespace Bindr
         private Zuby.ADGV.AdvancedDataGridView tab2DGV;
         private Button tab2btnLoadNestPlans;
         private Button button2;
-        private Button button3;
+        private Button tab2btnShowRollUp;
         private TabPage tabWOReport;
         private Label tab2StatusLabel;
         private ContextMenuStrip tab2RightClick;
