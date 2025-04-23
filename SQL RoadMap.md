@@ -1,7 +1,7 @@
 ## 📊 Historical Metrics Architecture – SQL + WinForms
 
 This system is designed to track and visualize changes over time in a high-volume job environment, using SQL Server for storage and a WinForms application for reporting.
-
+CDC(Change Data Capture) / GoldenGate for live data
 ---
 
 ### 🗃️ SQL Implementation Overview
