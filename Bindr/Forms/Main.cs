@@ -49,6 +49,7 @@ namespace Bindr
         {
             InitializeComponent();
             tab3Logic = new Tab3Logic(this, tab3DGV);
+            #region ButtonPaint
             // Add Paint event handlers for down arrows
             btntab1LoadSO.Paint += (s, e) =>
             {
@@ -80,6 +81,7 @@ namespace Bindr
                     e.Graphics.FillPolygon(brush, points);
                 }
             };
+            #endregion
 
             tab1DGV.GetType()
                .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
@@ -91,6 +93,7 @@ namespace Bindr
             SetupDataGridView();
             pdfViewerManager = new PdfViewerManager(tab2PDFView, tab2DGV, tab1DGV, tab2StatusLabel);
 
+            #region LoadingAnimations
             // Initialize loading animation
             loadingAnimation = new LoadingAnimation
             {
@@ -98,7 +101,9 @@ namespace Bindr
             };
             tab1DGV.Controls.Add(loadingAnimation);
             UpdateLoadingAnimationPosition();
+            #endregion
 
+            #region ContextMenu for Load SO and BOM
             // Initialize context menus for Load SO and Load BOM buttons
             loadSOContextMenu = new ContextMenuStrip();
             loadSOContextMenu.Items.Add("Manually Select File", null, async (s, e) => await ManuallySelectSOFile());
@@ -115,6 +120,7 @@ namespace Bindr
                 if (e.Button == MouseButtons.Right)
                     loadBOMContextMenu.Show(btntab1LoadBOM, e.Location);
             };
+            #endregion
 
             btntab1SelectFolder.Enabled = false;
             btntab1Process.Enabled = false;
@@ -126,6 +132,7 @@ namespace Bindr
             this.Refresh();
         }
 
+        #region Loading Animation Functions
         private void UpdateLoadingAnimationPosition()
         {
             if (loadingAnimation != null && tab1DGV != null)
@@ -147,6 +154,7 @@ namespace Bindr
                 );
             }
         }
+        #endregion
 
         private void Main_Load(object sender, EventArgs e)
         {
@@ -175,12 +183,211 @@ namespace Bindr
             settings.Show();
         }
 
+
+
+        
+
+        #region Tab2
+        private void tab2btnLoadNestPlans_Click(object sender, EventArgs e)
+        {
+            tab2StatusLabel.Text = "Status: Select File(s)";
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Multiselect = true;
+                openFileDialog.Filter = "Text Files (*.txt)|*.txt";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    tab2DataTable = new DataTable();
+                    tab2DataTable.Columns.Add("FileName");
+                    tab2DataTable.Columns.Add("PlanId");
+                    tab2DataTable.Columns.Add("PartInfo");
+                    tab2DataTable.Columns.Add("Qty");
+                    tab2DataTable.Columns.Add("Material");
+                    tab2DataTable.Columns.Add("Thickness");
+                    tab2DataTable.Columns.Add("PlannedTime");
+                    tab2DataTable.Columns.Add("Date Created");
+
+                    var fileList = openFileDialog.FileNames;
+                    var allRows = new List<List<string>>();
+                    tab2StatusLabel.Text = "Status: Processing NestPlans";
+                    Parallel.ForEach(fileList, file =>
+                    {
+                        var rows = nestPlanProcessor.ParseNestPlanFileFast(file);
+                        lock (allRows)
+                        {
+                            allRows.AddRange(rows);
+                        }
+                    });
+                    foreach (var row in allRows)
+                    {
+                        tab2DataTable.Rows.Add(row.ToArray());
+                    }
+                    tab2BindingSource.DataSource = tab2DataTable;
+                    tab2DGV.DataSource = tab2BindingSource;
+                    tab2DGV.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                    tab2StatusLabel.Text = "Status: NestPlan Processing Completed";
+                }
+            }
+            CheckForPdfFilesAsync();
+        }
+
+        private void tab2DGV_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridViewCell clickedCell = tab2DGV[e.ColumnIndex, e.RowIndex];
+                tab2DGV.ClearSelection();
+                tab2DGV.Rows[e.RowIndex].Selected = true;
+
+                // Now call LoadPlanPdf which depends on selected rows
+                pdfViewerManager.LoadPlanPdf();
+                tab2DGV.CurrentCell = clickedCell;
+            }
+        }
+
+        private void Tab2DGV_SortStringChanged(object sender, EventArgs e)
+        {
+            tab2BindingSource.Sort = tab2DGV.SortString;
+        }
+
+        private void Tab2DGV_FilterStringChanged(object sender, EventArgs e)
+        {
+            tab2BindingSource.Filter = tab2DGV.FilterString;
+        }
+
+        private void tab2DGV_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
+            {
+                tab2DGV.ClearSelection();
+                tab2DGV.Rows[e.RowIndex].Selected = true;
+                tab2DGV.CurrentCell = tab2DGV.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                tab2RightClick.Show(Cursor.Position);
+            }
+        }
+
+        private async void CheckForPdfFilesAsync()
+        {
+            var planIdToExistsMap = new Dictionary<string, bool>();
+            var planIds = tab2DGV.Rows
+                .Cast<DataGridViewRow>()
+                .Select(r => r.Cells["PlanId"].Value?.ToString())
+                .Where(id => !string.IsNullOrEmpty(id))
+                .Distinct()
+                .ToList();
+
+            await Task.Run(() =>
+            {
+                foreach (var planId in planIds)
+                {
+                    string pdfPath = System.IO.Path.Combine("Y:\\PDF Files", $"{planId}.pdf");
+                    bool exists = File.Exists(pdfPath);
+                    lock (planIdToExistsMap)
+                    {
+                        planIdToExistsMap[planId] = exists;
+                    }
+                }
+            });
+
+            foreach (DataGridViewRow row in tab2DGV.Rows)
+            {
+                string planId = row.Cells["PlanId"].Value?.ToString();
+                if (!string.IsNullOrEmpty(planId) && planIdToExistsMap.ContainsKey(planId))
+                {
+                    bool exists = planIdToExistsMap[planId];
+                    row.HeaderCell.Style.ForeColor = exists ? Color.DarkOliveGreen : Color.DarkRed;
+                    row.HeaderCell.Value = exists ? "📄" : "❌";
+                    row.HeaderCell.ToolTipText = exists ? "PDF exists for this drawing." : "No PDF found.";
+                }
+            }
+        }
+
+        private void loadPDFToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pdfViewerManager.LoadPlanPdf();
+        }
+
+        private void loadSupportDetailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pdfViewerManager.LoadSupportDetailPdf();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            pdfViewerManager.LoadTestPdf();
+        }
+
+        private async void btntab1ProcessBOM_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Show folder selection form
+                string targetFolder = await Task.Run(() =>
+                {
+                    string selectedPath = null;
+                    Invoke((Action)(() =>
+                    {
+                        using (var form = new FolderSelectionForm())
+                        {
+                            if (form.ShowDialog() == DialogResult.OK)
+                            {
+                                selectedPath = form.SelectedPath;
+                            }
+                        }
+                    }));
+                    return selectedPath;
+                });
+
+                if (string.IsNullOrEmpty(targetFolder) ||
+                    targetFolder.IndexOf("PS Job", StringComparison.OrdinalIgnoreCase) < 0)
+                {
+                    await InvokeAsync(() => MessageBox.Show("No valid folder with 'PS Job' selected. Please choose a path like 'Z:\\Jobs\\PS Job 01555'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning));
+                    return;
+                }
+
+                // Save the selected folder for next time
+                Properties.Settings.Default.LastJobFolder = targetFolder;
+                Properties.Settings.Default.Save();
+
+                // Step 1: Find CSV file with "BOM" in the name
+                string bomCsvFile = await PoProcessor.FindBomCsvFileAsync(targetFolder);
+                if (string.IsNullOrEmpty(bomCsvFile))
+                {
+                    await InvokeAsync(() => MessageBox.Show($"No CSV file with 'BOM' found in {targetFolder}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning));
+                    return;
+                }
+
+                // Step 2: Process the CSV file and copy to clipboard
+                string processedContent = await PoProcessor.ProcessCsvFileAsync(bomCsvFile);
+                if (!string.IsNullOrEmpty(processedContent))
+                {
+                    // Copy to clipboard on the UI thread
+                    await InvokeAsync(() => Clipboard.SetText(processedContent));
+                    await InvokeAsync(() => MessageBox.Show("Processed content copied to clipboard as tab-delimited text.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information));
+                }
+                else
+                {
+                    await InvokeAsync(() => MessageBox.Show("No valid content to copy from the CSV file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning));
+                }
+            }
+            catch (Exception ex)
+            {
+                // Show error on the UI thread
+                await InvokeAsync(() => MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
+            }
+        }
+        #endregion
+
+
+        #region Tab1
+
+        // TAB 1
+
         private void SetupDataGridView()
         {
             tab1DGV.Rows.Clear();
         }
 
-        // TAB 1
         private async void btntab1LoadPdf_Click(object sender, EventArgs e)
         {
             ResetAppState();
@@ -325,7 +532,7 @@ namespace Bindr
                     foreach (var update in rowUpdates)
                     {
                         var row = tab1DGV.Rows[update.RowIndex];
-                        
+
                         row.Cells[5].Value = update.Status;    // Status
                         row.Cells[5].Style.ForeColor = update.Status == "Matched Successfully" ? Color.Green : Color.Red;
                     }
@@ -354,183 +561,6 @@ namespace Bindr
             suggestedFolderPath = "";
             tab1DGV.Rows.Clear();
             tab1StatusLabel.Text = "Status: Ready, please select a PDF";
-        }
-
-        // TAB 2
-        private void tab2btnLoadNestPlans_Click(object sender, EventArgs e)
-        {
-            tab2StatusLabel.Text = "Status: Select File(s)";
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
-            {
-                openFileDialog.Multiselect = true;
-                openFileDialog.Filter = "Text Files (*.txt)|*.txt";
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    tab2DataTable = new DataTable();
-                    tab2DataTable.Columns.Add("FileName");
-                    tab2DataTable.Columns.Add("PlanId");
-                    tab2DataTable.Columns.Add("PartInfo");
-                    tab2DataTable.Columns.Add("Qty");
-                    tab2DataTable.Columns.Add("Material");
-                    tab2DataTable.Columns.Add("Thickness");
-                    tab2DataTable.Columns.Add("PlannedTime");
-                    tab2DataTable.Columns.Add("Date Created");
-
-                    var fileList = openFileDialog.FileNames;
-                    var allRows = new List<List<string>>();
-                    tab2StatusLabel.Text = "Status: Processing NestPlans";
-                    Parallel.ForEach(fileList, file =>
-                    {
-                        var rows = nestPlanProcessor.ParseNestPlanFileFast(file);
-                        lock (allRows)
-                        {
-                            allRows.AddRange(rows);
-                        }
-                    });
-                    foreach (var row in allRows)
-                    {
-                        tab2DataTable.Rows.Add(row.ToArray());
-                    }
-                    tab2BindingSource.DataSource = tab2DataTable;
-                    tab2DGV.DataSource = tab2BindingSource;
-                    tab2DGV.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
-                    tab2DGV.RowHeadersWidth = 55;
-                    tab2StatusLabel.Text = "Status: NestPlan Processing Completed";
-                }
-            }
-            CheckForPdfFilesAsync();
-        }
-
-        private void Tab2DGV_SortStringChanged(object sender, EventArgs e)
-        {
-            tab2BindingSource.Sort = tab2DGV.SortString;
-        }
-
-        private void Tab2DGV_FilterStringChanged(object sender, EventArgs e)
-        {
-            tab2BindingSource.Filter = tab2DGV.FilterString;
-        }
-
-        private void tab2DGV_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right && e.RowIndex >= 0)
-            {
-                tab2DGV.ClearSelection();
-                tab2DGV.Rows[e.RowIndex].Selected = true;
-                tab2DGV.CurrentCell = tab2DGV.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                tab2RightClick.Show(Cursor.Position);
-            }
-        }
-
-        private async void CheckForPdfFilesAsync()
-        {
-            var planIdToExistsMap = new Dictionary<string, bool>();
-            var planIds = tab2DGV.Rows
-                .Cast<DataGridViewRow>()
-                .Select(r => r.Cells["PlanId"].Value?.ToString())
-                .Where(id => !string.IsNullOrEmpty(id))
-                .Distinct()
-                .ToList();
-
-            await Task.Run(() =>
-            {
-                foreach (var planId in planIds)
-                {
-                    string pdfPath = System.IO.Path.Combine("Y:\\PDF Files", $"{planId}.pdf");
-                    bool exists = File.Exists(pdfPath);
-                    lock (planIdToExistsMap)
-                    {
-                        planIdToExistsMap[planId] = exists;
-                    }
-                }
-            });
-
-            foreach (DataGridViewRow row in tab2DGV.Rows)
-            {
-                string planId = row.Cells["PlanId"].Value?.ToString();
-                if (!string.IsNullOrEmpty(planId) && planIdToExistsMap.ContainsKey(planId))
-                {
-                    bool exists = planIdToExistsMap[planId];
-                    row.HeaderCell.Style.ForeColor = exists ? Color.DarkOliveGreen : Color.DarkRed;
-                    row.HeaderCell.Value = exists ? "📄" : "❌";
-                    row.HeaderCell.ToolTipText = exists ? "PDF exists for this drawing." : "No PDF found.";
-                }
-            }
-        }
-
-        private void loadPDFToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pdfViewerManager.LoadPlanPdf();
-        }
-
-        private void loadSupportDetailToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pdfViewerManager.LoadSupportDetailPdf();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            pdfViewerManager.LoadTestPdf();
-        }
-
-        private async void btntab1ProcessBOM_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Show folder selection form
-                string targetFolder = await Task.Run(() =>
-                {
-                    string selectedPath = null;
-                    Invoke((Action)(() =>
-                    {
-                        using (var form = new FolderSelectionForm())
-                        {
-                            if (form.ShowDialog() == DialogResult.OK)
-                            {
-                                selectedPath = form.SelectedPath;
-                            }
-                        }
-                    }));
-                    return selectedPath;
-                });
-
-                if (string.IsNullOrEmpty(targetFolder) ||
-                    targetFolder.IndexOf("PS Job", StringComparison.OrdinalIgnoreCase) < 0)
-                {
-                    await InvokeAsync(() => MessageBox.Show("No valid folder with 'PS Job' selected. Please choose a path like 'Z:\\Jobs\\PS Job 01555'.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning));
-                    return;
-                }
-
-                // Save the selected folder for next time
-                Properties.Settings.Default.LastJobFolder = targetFolder;
-                Properties.Settings.Default.Save();
-
-                // Step 1: Find CSV file with "BOM" in the name
-                string bomCsvFile = await PoProcessor.FindBomCsvFileAsync(targetFolder);
-                if (string.IsNullOrEmpty(bomCsvFile))
-                {
-                    await InvokeAsync(() => MessageBox.Show($"No CSV file with 'BOM' found in {targetFolder}.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning));
-                    return;
-                }
-
-                // Step 2: Process the CSV file and copy to clipboard
-                string processedContent = await PoProcessor.ProcessCsvFileAsync(bomCsvFile);
-                if (!string.IsNullOrEmpty(processedContent))
-                {
-                    // Copy to clipboard on the UI thread
-                    await InvokeAsync(() => Clipboard.SetText(processedContent));
-                    await InvokeAsync(() => MessageBox.Show("Processed content copied to clipboard as tab-delimited text.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information));
-                }
-                else
-                {
-                    await InvokeAsync(() => MessageBox.Show("No valid content to copy from the CSV file.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning));
-                }
-            }
-            catch (Exception ex)
-            {
-                // Show error on the UI thread
-                await InvokeAsync(() => MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
-            }
         }
 
         private async void btntab1LoadSO_Click(object sender, EventArgs e)
@@ -729,8 +759,10 @@ namespace Bindr
                 action();
             }
         }
+        #endregion
 
-        // Form to select or paste the folder path
+
+        #region FolderForm
         public class FolderSelectionForm : Form
         {
             private TextBox txtFolderPath;
@@ -828,6 +860,13 @@ namespace Bindr
                 this.DialogResult = DialogResult.OK;
             }
         }
+        #endregion
+
+
+
+
+
+        #region Tab3
 
         private void btntab3LoadReport_Click(object sender, EventArgs e)
         {
@@ -856,8 +895,6 @@ namespace Bindr
             }
         }
 
-
-
         private void btntab3summarize_Click(object sender, EventArgs e)
         {tab3Logic.GenerateSummary();}
         private void btntab3reset_Click(object sender, EventArgs e)
@@ -870,6 +907,10 @@ namespace Bindr
         { /*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenDetailClick(sender, e);}}
         private void openWOToolStripMenuItem_Click(object sender, EventArgs e)
         {/*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenWOClick(sender, e);}}
+
+        #endregion
+
+
 
     }
 }

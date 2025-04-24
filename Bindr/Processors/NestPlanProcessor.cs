@@ -20,19 +20,15 @@ namespace Bindr
             string thickness = "";
             string plannedTime = "";
 
+            // First pass - extract global values like PlannedTime
             using (var reader = new StreamReader(filePath))
             {
                 string line;
-                string pendingPartInfo = null;
                 while ((line = reader.ReadLine()) != null)
                 {
                     if (line.Contains("PlanId=") && string.IsNullOrEmpty(planId))
                     {
                         planId = ExtractQuotedValueSimple(line, "PlanId");
-                    }
-                    else if (line.Contains("PartInfo="))
-                    {
-                        pendingPartInfo = ExtractQuotedValueSimple(line, "PartInfo");
                     }
                     else if (line.Contains("Material="))
                     {
@@ -44,14 +40,30 @@ namespace Bindr
                     }
                     else if (line.Contains("PlannedTime="))
                     {
-                        plannedTime = ExtractPlannedTimeValue(line, "PlannedTime=");
-                        
-                        
+                        plannedTime = ExtractPlannedTimeValue(line, "PlannedTime");
+                    }
+                    else if (line.Contains("G70")) break;
+                }
+            }
+
+            // Second pass - get part info and create rows
+            using (var reader = new StreamReader(filePath))
+            {
+                string line;
+                string pendingPartInfo = null;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (line.Contains("PartInfo="))
+                    {
+                        pendingPartInfo = ExtractQuotedValueSimple(line, "PartInfo");
                     }
                     else if (line.Contains("PI_PartProgramQty=") && pendingPartInfo != null)
                     {
                         string qty = ExtractValue(line, "PI_PartProgramQty");
-                        // Add all the requested fields
+
+                        Console.WriteLine($"Adding row with values:");
+                        Console.WriteLine($"PlannedTime: {plannedTime}");
+
                         results.Add(new List<string> {
                     fileName,
                     planId,
@@ -63,15 +75,12 @@ namespace Bindr
                     fileCreationDate.ToString("MM-dd-yyyy HH:mm:ss")
                 });
 
-                        // Reset part-specific values for next part
                         pendingPartInfo = null;
-                        //material = "";
-                        //thickness = "";
-                        //plannedTime = "";
                     }
                     else if (line.Contains("G70")) break;
                 }
             }
+
             return results;
         }
 
@@ -134,18 +143,27 @@ namespace Bindr
         {
             try
             {
-                // Look for the pattern (PlannedTime=
-                int startIndex = line.IndexOf("(" + key + "=");
-                if (startIndex == -1) return "";
+                // Look for the exact line format from the example
+                if (line.Contains("TEXT8=(PlannedTime="))
+                {
+                    int startIndex = line.IndexOf("PlannedTime=") + "PlannedTime=".Length;
+                    int endIndex = line.IndexOf(')', startIndex);
 
-                // Move past the key name and equals sign
-                startIndex += key.Length + 2; // +2 for the '(' and '='
+                    if (endIndex != -1)
+                    {
+                        return line.Substring(startIndex, endIndex - startIndex);
+                    }
+                }
 
-                // Find the closing parenthesis
-                int endIndex = line.IndexOf(')', startIndex);
-                if (endIndex == -1) return line.Substring(startIndex); // fallback
+                // Fallback to a more general approach
+                int keyStart = line.IndexOf(key + "=");
+                if (keyStart == -1) return "";
 
-                return line.Substring(startIndex, endIndex - startIndex);
+                keyStart += key.Length + 1;
+                int keyEnd = line.IndexOf(')', keyStart);
+
+                if (keyEnd == -1) return "";
+                return line.Substring(keyStart, keyEnd - keyStart);
             }
             catch
             {

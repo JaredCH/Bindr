@@ -335,6 +335,7 @@ namespace Bindr
             this.tab2DGV.Size = new System.Drawing.Size(553, 472);
             this.tab2DGV.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             this.tab2DGV.TabIndex = 8;
+            this.tab2DGV.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.tab2DGV_CellClick);
             this.tab2DGV.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.tab2DGV_CellMouseDown);
             // 
             // tab2btnLoadNestPlans
