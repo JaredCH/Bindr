@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bindr
 {
     public class NestPlanProcessor
     {
-
         public List<List<string>> ParseNestPlanFileFast(string filePath)
         {
             var results = new List<List<string>>();
@@ -84,11 +80,6 @@ namespace Bindr
             return results;
         }
 
-
-
-
-
-
         private string ExtractValue(string line, string key)
         {
             try
@@ -138,7 +129,6 @@ namespace Bindr
             }
         }
 
-
         private string ExtractPlannedTimeValue(string line, string key)
         {
             try
@@ -170,7 +160,5 @@ namespace Bindr
                 return "";
             }
         }
-
-
     }
 }

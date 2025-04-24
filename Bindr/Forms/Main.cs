@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -9,8 +8,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bindr.Processors; // Added for PoProcessor
 using Bindr.Tab3;
-using ClosedXML.Excel;
-
 
 //TODO
 //(look for open email window, list out attatchments, determine which one has the info we need based on name, extract a date from that pdf
@@ -29,7 +26,7 @@ namespace Bindr
         private string sourcePdfPath = "";
         private string selectedFolderPath = "";
         private string suggestedFolderPath = "";
-        NestPlanProcessor nestPlanProcessor = new NestPlanProcessor();
+        private NestPlanProcessor nestPlanProcessor = new NestPlanProcessor();
         private BindingSource tab2BindingSource = new BindingSource();
         private DataTable tab2DataTable = new DataTable();
         private DataTable tab3DataTableOriginal = new DataTable();
@@ -43,13 +40,13 @@ namespace Bindr
         private bool isSummaryView = false;
         private Tab3Logic tab3Logic;
 
-
-
         public Main()
         {
             InitializeComponent();
             tab3Logic = new Tab3Logic(this, tab3DGV);
+
             #region ButtonPaint
+
             // Add Paint event handlers for down arrows
             btntab1LoadSO.Paint += (s, e) =>
             {
@@ -81,7 +78,8 @@ namespace Bindr
                     e.Graphics.FillPolygon(brush, points);
                 }
             };
-            #endregion
+
+            #endregion ButtonPaint
 
             tab1DGV.GetType()
                .GetProperty("DoubleBuffered", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
@@ -94,6 +92,7 @@ namespace Bindr
             pdfViewerManager = new PdfViewerManager(tab2PDFView, tab2DGV, tab1DGV, tab2StatusLabel);
 
             #region LoadingAnimations
+
             // Initialize loading animation
             loadingAnimation = new LoadingAnimation
             {
@@ -101,9 +100,11 @@ namespace Bindr
             };
             tab1DGV.Controls.Add(loadingAnimation);
             UpdateLoadingAnimationPosition();
-            #endregion
+
+            #endregion LoadingAnimations
 
             #region ContextMenu for Load SO and BOM
+
             // Initialize context menus for Load SO and Load BOM buttons
             loadSOContextMenu = new ContextMenuStrip();
             loadSOContextMenu.Items.Add("Manually Select File", null, async (s, e) => await ManuallySelectSOFile());
@@ -120,7 +121,8 @@ namespace Bindr
                 if (e.Button == MouseButtons.Right)
                     loadBOMContextMenu.Show(btntab1LoadBOM, e.Location);
             };
-            #endregion
+
+            #endregion ContextMenu for Load SO and BOM
 
             btntab1SelectFolder.Enabled = false;
             btntab1Process.Enabled = false;
@@ -133,6 +135,7 @@ namespace Bindr
         }
 
         #region Loading Animation Functions
+
         private void UpdateLoadingAnimationPosition()
         {
             if (loadingAnimation != null && tab1DGV != null)
@@ -154,7 +157,8 @@ namespace Bindr
                 );
             }
         }
-        #endregion
+
+        #endregion Loading Animation Functions
 
         private void Main_Load(object sender, EventArgs e)
         {
@@ -176,18 +180,14 @@ namespace Bindr
             pdfViewerManager?.Dispose();
         }
 
-
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             settingsForm settings = new settingsForm();
             settings.Show();
         }
 
-
-
-        
-
         #region Tab2
+
         private void tab2btnLoadNestPlans_Click(object sender, EventArgs e)
         {
             tab2StatusLabel.Text = "Status: Select File(s)";
@@ -376,8 +376,8 @@ namespace Bindr
                 await InvokeAsync(() => MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error));
             }
         }
-        #endregion
 
+        #endregion Tab2
 
         #region Tab1
 
@@ -759,10 +759,11 @@ namespace Bindr
                 action();
             }
         }
-        #endregion
 
+        #endregion Tab1
 
         #region FolderForm
+
         public class FolderSelectionForm : Form
         {
             private TextBox txtFolderPath;
@@ -860,18 +861,14 @@ namespace Bindr
                 this.DialogResult = DialogResult.OK;
             }
         }
-        #endregion
 
-
-
-
+        #endregion FolderForm
 
         #region Tab3
 
         private void btntab3LoadReport_Click(object sender, EventArgs e)
         {
             tab3Logic.LoadExcelFile();
-
         }
 
         public PdfiumViewer.PdfViewer GetTab4PdfViewer()
@@ -896,21 +893,23 @@ namespace Bindr
         }
 
         private void btntab3summarize_Click(object sender, EventArgs e)
-        {tab3Logic.GenerateSummary();}
+        { tab3Logic.GenerateSummary(); }
+
         private void btntab3reset_Click(object sender, EventArgs e)
-        {tab3Logic.ResetView();}
+        { tab3Logic.ResetView(); }
+
         private void btntab3FGSort_Click(object sender, EventArgs e)
-        {tab3Logic.GenerateFGSummary();}
+        { tab3Logic.GenerateFGSummary(); }
+
         private void tab3DGV_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
-        {/*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleCellDoubleClick(sender, e);}}
+        {/*Forward the event to Tab3Logic*/if (tab3Logic != null) { tab3Logic.HandleCellDoubleClick(sender, e); } }
+
         private void openDetailToolStripMenuItem_Click(object sender, EventArgs e)
-        { /*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenDetailClick(sender, e);}}
+        { /*Forward the event to Tab3Logic*/if (tab3Logic != null) { tab3Logic.HandleOpenDetailClick(sender, e); } }
+
         private void openWOToolStripMenuItem_Click(object sender, EventArgs e)
-        {/*Forward the event to Tab3Logic*/if (tab3Logic != null){tab3Logic.HandleOpenWOClick(sender, e);}}
+        {/*Forward the event to Tab3Logic*/if (tab3Logic != null) { tab3Logic.HandleOpenWOClick(sender, e); } }
 
-        #endregion
-
-
-
+        #endregion Tab3
     }
 }

@@ -1,13 +1,12 @@
-﻿using iText.Kernel.Pdf;
-using iText.Kernel.Pdf.Canvas.Parser;
-using iText.Kernel.Pdf.Canvas.Parser.Listener;
-using iText.Kernel.Pdf.Canvas.Parser.Filter;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing;
-using System.Collections.Generic;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas.Parser;
+using iText.Kernel.Pdf.Canvas.Parser.Filter;
+using iText.Kernel.Pdf.Canvas.Parser.Listener;
 
 namespace Bindr
 {
@@ -172,7 +171,6 @@ namespace Bindr
             public string FileFound { get; set; }
             public string Status { get; set; }
         }
-
 
         public static List<RowUpdate> ProcessPdfAndSaveResults(string sourcePdfPath, string selectedFolderPath, DataGridView dataGridView)
         {

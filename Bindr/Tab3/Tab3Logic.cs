@@ -5,13 +5,10 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using ClosedXML.Excel;
-using iText.Pdfua;
-using PdfiumViewer;
 using PdfiumDocument = PdfiumViewer.PdfDocument;
-
 
 namespace Bindr.Tab3
 {
@@ -26,9 +23,6 @@ namespace Bindr.Tab3
         private ContextMenuStrip contextMenu;
         private PdfiumDocument currentPdfDocument;
         private Main mainForm;
-
-
-
 
         // In your Tab3Logic constructor:
         public Tab3Logic(Main mainForm, DataGridView dataGridView)
@@ -51,10 +45,6 @@ namespace Bindr.Tab3
             woItem.Click += openWOToolStripMenuItem_Click;
         }
 
-
-
-
-
         public void LoadExcelFile()
         {
             // Open File Dialog to pick an Excel file
@@ -70,9 +60,11 @@ namespace Bindr.Tab3
 
                     // Use Task.Run to load file in background
                     Task.Run(() => LoadExcelFileAsync(filePath))
-                        .ContinueWith(t => {
+                        .ContinueWith(t =>
+                        {
                             // Return to UI thread
-                            mainForm.BeginInvoke(new Action(() => {
+                            mainForm.BeginInvoke(new Action(() =>
+                            {
                                 mainForm.Cursor = Cursors.Default;
                                 if (t.Exception != null)
                                     MessageBox.Show($"Error loading Excel file: {t.Exception.InnerException?.Message}");
@@ -132,7 +124,8 @@ namespace Bindr.Tab3
                 }
 
                 // Update UI on the UI thread
-                mainForm.BeginInvoke(new Action(() => {
+                mainForm.BeginInvoke(new Action(() =>
+                {
                     tab3dataTable = newDataTable;
                     tab3DGV.DataSource = tab3dataTable;
                     tab3DataTableOriginal = tab3dataTable.Copy();
@@ -151,8 +144,6 @@ namespace Bindr.Tab3
                 throw;
             }
         }
-
-
 
         public void openDetailToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -226,8 +217,6 @@ namespace Bindr.Tab3
                 MessageBox.Show($"Error opening file:\n{ex.Message}");
             }
         }
-
-
 
         private void tab3DGV_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -476,8 +465,6 @@ namespace Bindr.Tab3
                     return;
                 }
 
-
-
                 // 1. Search all subfolders for tag_merged.pdf
                 var subDirs = Directory.GetDirectories(jobFolder);
                 foreach (var dir in subDirs)
@@ -642,8 +629,5 @@ namespace Bindr.Tab3
         {
             openWOToolStripMenuItem_Click(sender, e);
         }
-
-
     }
-
 }

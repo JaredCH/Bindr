@@ -1,27 +1,24 @@
 ﻿using System;
-using System.Diagnostics;   
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using PdfiumViewer;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Windows.Forms;
 
 //todo
 //View  current mapping button to show whats currently mapped, and auto show it after the image is loaded.
-
 
 namespace Bindr
 {
     public partial class settingsForm : Form
     {
-        private enum RegionMode { None, Pcmk, JobPo, WO, ItemNo }
-        private enum DrawMode { None, Pcmk, JobPo, WO, ItemNo }
+        private enum RegionMode
+        { None, Pcmk, JobPo, WO, ItemNo }
+
+        private enum DrawMode
+        { None, Pcmk, JobPo, WO, ItemNo }
+
         private DrawMode currentDrawMode = DrawMode.None;
         private bool isDrawing = false;
         private Point startPoint; // Pixel coordinates for drawing
@@ -32,6 +29,7 @@ namespace Bindr
 
         private List<Rectangle> displayedRectangles = new List<Rectangle>();
         private Dictionary<Rectangle, RegionMode> rectangleTypes = new Dictionary<Rectangle, RegionMode>();
+
         private Dictionary<RegionMode, Color> regionColors = new Dictionary<RegionMode, Color>
         {
             { RegionMode.Pcmk, Color.Red },
@@ -40,15 +38,12 @@ namespace Bindr
             { RegionMode.ItemNo, Color.Orange }
         };
 
-
-
         public settingsForm()
         {
             InitializeComponent();
 
             // Wire up Paint event explicitly
             pdfPreviewBox.Paint += pdfPreviewBox_Paint;
-
 
             txtPcmkRect.Text = Properties.Settings.Default.Coords1;
             txtJobPoRect.Text = Properties.Settings.Default.Coords2;
@@ -77,7 +72,6 @@ namespace Bindr
             currentDrawMode = DrawMode.Pcmk;
             FlashTextBox(txtPcmkRect, 3, 2000);
             ClearDisplayedRegionsForMode(RegionMode.Pcmk);
-
         }
 
         private void settingsbtnSetWO_Click(object sender, EventArgs e)
@@ -161,14 +155,11 @@ namespace Bindr
                 else if (currentDrawMode == DrawMode.WO)
                     txtWORect.Text = rectStr;
 
-
                 currentDrawMode = DrawMode.None;
                 pdfPreviewBox.Invalidate(); // Refresh box
             }
             ShowSavedRegions();
         }
-
-
 
         private void pdfPreviewBox_Paint(object sender, PaintEventArgs e)
         {
@@ -327,11 +318,7 @@ namespace Bindr
                     ShowSavedRegions();
                 }
             }
-
-
         }
-
-
 
         private void FlashTextBox(TextBox textBox, int flashCount, int totalDurationMs)
         {
@@ -367,7 +354,6 @@ namespace Bindr
 
         private void settingsForm_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -506,10 +492,5 @@ namespace Bindr
 
             pdfPreviewBox.Invalidate();
         }
-
-
-
-
-
     }
 }

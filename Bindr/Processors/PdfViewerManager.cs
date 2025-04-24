@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using PdfiumDocument = PdfiumViewer.PdfDocument;
 using PdfiumViewer;
+using PdfiumDocument = PdfiumViewer.PdfDocument;
 
 namespace Bindr
 {
